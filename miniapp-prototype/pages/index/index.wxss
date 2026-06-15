@@ -1,0 +1,359 @@
+/* pages/index/index.wxss */
+/* YanCe Policy Agent - Home Page Styles */
+/* Brand: yance.ai | Navy/Teal/Coral */
+
+.page {
+  min-height: 100vh;
+  background: #f5f6fa;
+  padding-bottom: 120rpx;
+}
+
+/* ============================================
+   Hero Header
+   ============================================ */
+.hero-header {
+  position: relative;
+  padding: 40rpx 32rpx 32rpx;
+  background: linear-gradient(135deg, #0d1b2a 0%, #112240 50%, #0d1b2a 100%);
+  border-radius: 0 0 32rpx 32rpx;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(249, 115, 22, 0.08) 0%, transparent 50%);
+}
+
+.hero-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 28rpx;
+}
+
+.hero-logo {
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(14, 165, 233, 0.3);
+}
+
+.hero-logo-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2rpx;
+}
+
+.hero-subtitle {
+  font-size: 24rpx;
+  color: #f97316;
+  margin-top: 4rpx;
+  font-weight: 500;
+}
+
+/* Park Selector */
+.park-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1rpx solid rgba(255, 255, 255, 0.12);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.park-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.park-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.park-region {
+  font-size: 22rpx;
+  color: rgba(125, 211, 252, 0.7);
+  margin-top: 4rpx;
+}
+
+.park-arrow {
+  font-size: 20rpx;
+  color: rgba(125, 211, 252, 0.6);
+}
+
+/* Stats Bar */
+.stats-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: rgba(125, 211, 252, 0.7);
+  margin-top: 4rpx;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+.section {
+  padding: 28rpx 32rpx 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.section-more {
+  font-size: 24rpx;
+  color: #0ea5e9;
+}
+
+/* ============================================
+   Quick Actions — improved card v2
+   ============================================ */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.action-card-v2 {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.action-card-v2:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.action-icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.action-icon {
+  font-size: 40rpx;
+}
+
+.action-text-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 4rpx;
+  line-height: 1.4;
+}
+
+.action-desc {
+  font-size: 22rpx;
+  color: #94a3b8;
+}
+
+.action-arrow {
+  font-size: 36rpx;
+  color: #cbd5e1;
+  margin-left: 8rpx;
+}
+
+/* ============================================
+   CTA Section
+   ============================================ */
+.cta-section {
+  padding: 24rpx 32rpx;
+}
+
+/* ============================================
+   Service List
+   ============================================ */
+.service-list {
+  margin-top: 8rpx;
+}
+
+.service-item {
+  padding: 24rpx;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.service-company {
+  display: flex;
+  align-items: center;
+}
+
+.service-company-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.service-summary {
+  font-size: 24rpx;
+  color: #64748b;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.service-date {
+  font-size: 22rpx;
+  color: #94a3b8;
+}
+
+/* ============================================
+   Park Picker Modal
+   ============================================ */
+.park-picker-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.park-picker-panel {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  max-height: 70vh;
+}
+
+.park-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #f1f5f9;
+}
+
+.park-picker-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.park-picker-close {
+  font-size: 32rpx;
+  color: #94a3b8;
+  padding: 8rpx;
+}
+
+.park-picker-list {
+  max-height: 60vh;
+  padding: 0 32rpx;
+}
+
+.park-picker-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f1f5f9;
+}
+
+.park-picker-item.active {
+  background: #e0f2fe;
+  margin: 0 -32rpx;
+  padding: 24rpx 32rpx;
+  border-radius: 12rpx;
+}
+
+.park-picker-item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.park-picker-item-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+.park-picker-item-region {
+  font-size: 22rpx;
+  color: #64748b;
+  margin-top: 4rpx;
+}

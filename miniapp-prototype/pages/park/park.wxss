@@ -1,0 +1,263 @@
+/* pages/park/park.wxss */
+/* YanCe Policy Agent - Park Workbench Styles */
+/* Brand: yance.ai */
+
+.page {
+  min-height: 100vh;
+  background: #f5f6fa;
+  padding-bottom: 120rpx;
+}
+
+/* ============================================
+   Park Header
+   ============================================ */
+.park-header {
+  position: relative;
+  padding: 40rpx 32rpx 32rpx;
+  background: linear-gradient(135deg, #0d1b2a 0%, #112240 50%, #0d1b2a 100%);
+  border-radius: 0 0 32rpx 32rpx;
+  overflow: hidden;
+}
+
+.park-header-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(14, 165, 233, 0.12) 0%, transparent 60%);
+}
+
+.park-header-content {
+  position: relative;
+  margin-bottom: 24rpx;
+}
+
+.park-header-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+}
+
+.park-header-region {
+  font-size: 24rpx;
+  color: rgba(125, 211, 252, 0.7);
+  margin-top: 4rpx;
+  display: block;
+}
+
+/* Overview Stats */
+.overview-stats {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  border-radius: 16rpx;
+  padding: 24rpx 0;
+}
+
+.overview-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.overview-stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.overview-stat-warning {
+  color: #fbbf24;
+}
+
+.overview-stat-label {
+  font-size: 22rpx;
+  color: rgba(125, 211, 252, 0.7);
+  margin-top: 4rpx;
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+.section {
+  padding: 28rpx 32rpx 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.section-more {
+  font-size: 24rpx;
+  color: #0ea5e9;
+}
+
+/* ============================================
+   Quick Actions Grid
+   ============================================ */
+.park-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+}
+
+.park-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx 8rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.park-action-item:active {
+  opacity: 0.85;
+  transform: scale(0.95);
+}
+
+.park-action-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  background: #e0f2fe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.park-action-icon {
+  font-size: 36rpx;
+}
+
+.park-action-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  text-align: center;
+}
+
+.park-action-desc {
+  font-size: 20rpx;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 2rpx;
+  display: none;
+}
+
+/* ============================================
+   Service Orders
+   ============================================ */
+.order-list {
+  margin-top: 8rpx;
+}
+
+.order-item {
+  padding: 24rpx;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.order-company-row {
+  display: flex;
+  align-items: center;
+}
+
+.urgency-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.urgency-high {
+  background: #ef4444;
+}
+
+.urgency-medium {
+  background: #f59e0b;
+}
+
+.urgency-low {
+  background: #10b981;
+}
+
+.order-company {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.order-task {
+  font-size: 24rpx;
+  color: #64748b;
+  padding-left: 24rpx;
+}
+
+/* ============================================
+   Activity Timeline
+   ============================================ */
+.activity-list {
+  padding: 24rpx;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.activity-item:last-child {
+  margin-bottom: 0;
+}
+
+.activity-time {
+  width: 120rpx;
+  flex-shrink: 0;
+  font-size: 22rpx;
+  color: #94a3b8;
+  padding-top: 4rpx;
+}
+
+.activity-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16rpx;
+  padding-top: 6rpx;
+}
+
+.activity-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-text {
+  font-size: 26rpx;
+  color: #374151;
+  line-height: 1.5;
+}

@@ -1,0 +1,182 @@
+/* pages/company/company.wxss */
+/* YanCe Policy Agent - Company Entry Form Styles */
+
+.page {
+  min-height: 100vh;
+  background: #f5f6fa;
+  padding-bottom: 160rpx;
+}
+
+/* Top Actions */
+.top-actions {
+  display: flex;
+  gap: 16rpx;
+  padding: 20rpx 32rpx 8rpx;
+}
+
+/* ============================================
+   Form Sections
+   ============================================ */
+.form-section {
+  margin: 20rpx 32rpx;
+}
+
+.form-section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 20rpx;
+  padding-bottom: 12rpx;
+  border-bottom: 2rpx solid #f1f5f9;
+}
+
+.required {
+  color: #ef4444;
+  font-size: 24rpx;
+}
+
+.form-group {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  background: #f8fafc;
+  border: 2rpx solid #e2e8f0;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #1a1a2e;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 160rpx;
+  background: #f8fafc;
+  border: 2rpx solid #e2e8f0;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  color: #1a1a2e;
+  box-sizing: border-box;
+}
+
+.form-picker {
+  width: 100%;
+  height: 80rpx;
+  background: #f8fafc;
+  border: 2rpx solid #e2e8f0;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #1a1a2e;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picker-arrow {
+  font-size: 20rpx;
+  color: #94a3b8;
+}
+
+/* ============================================
+   Needs Grid (Chips)
+   ============================================ */
+.needs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.need-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 12rpx 24rpx;
+  background: #f8fafc;
+  border: 2rpx solid #e2e8f0;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.need-chip:active {
+  transform: scale(0.95);
+}
+
+.need-chip-active {
+  background: #e0f2fe;
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+  font-weight: 500;
+}
+
+/* ============================================
+   Certifications
+   ============================================ */
+.cert-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f1f5f9;
+}
+
+.cert-item:last-child {
+  border-bottom: none;
+}
+
+.cert-checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #d1d5db;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+  transition: all 0.2s;
+}
+
+.cert-checkbox.checked {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+}
+
+.cert-label {
+  font-size: 28rpx;
+  color: #374151;
+}
+
+/* ============================================
+   Submit Section
+   ============================================ */
+.submit-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #ffffff;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}

@@ -1,0 +1,21 @@
+{
+  "company": {
+    "name": "衍策引擎（上海）科技有限公司",
+    "industry": "人工智能",
+    "stage": "成长期",
+    "region": "上海市徐汇区",
+    "park": "徐汇AI创新园区",
+    "employees": 45,
+    "revenue_year_million": 8.5,
+    "rd_ratio_percent": 22,
+    "has_ip": true,
+    "ip_count": 6,
+    "has_high_tech_cert": false,
+    "is_sme": true,
+    "registered_capital_million": 5.0,
+    "founded_year": 2021,
+    "contact_person": "张经理",
+    "contact_phone": "021-XXXX-XXXX",
+    "business_scope": "人工智能技术研发、政策数据分析、企业服务平台开发"
+  }
+}

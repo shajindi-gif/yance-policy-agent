@@ -1,0 +1,141 @@
+<!--pages/index/index.wxml-->
+<!--YanCe Policy Agent - Home Page | yance.ai-->
+
+<view class="page">
+  <!-- Hero Header -->
+  <view class="hero-header">
+    <view class="hero-bg"></view>
+    <view class="hero-content">
+      <view class="hero-logo">
+        <text class="hero-logo-text">Y</text>
+      </view>
+      <view class="hero-info">
+        <text class="hero-title">YanCe Policy Agent</text>
+        <text class="hero-subtitle">yance.ai | 智能政策分析 · 精准企业服务</text>
+      </view>
+    </view>
+
+    <!-- Park Selector -->
+    <view class="park-selector" bindtap="onParkPickerOpen">
+      <view class="park-info">
+        <text class="park-name">{{currentPark.name || '请选择园区'}}</text>
+        <text class="park-region">{{currentPark.region || '点击选择园区'}}</text>
+      </view>
+      <text class="park-arrow">▼</text>
+    </view>
+
+    <!-- Stats Bar -->
+    <view class="stats-bar" wx:if="{{currentPark}}">
+      <view class="stat-item">
+        <text class="stat-value">{{stats.totalCompanies}}</text>
+        <text class="stat-label">入驻企业</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{stats.totalServices}}</text>
+        <text class="stat-label">服务记录</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{stats.matchRate}}%</text>
+        <text class="stat-label">匹配进度</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Quick Actions — improved card design -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">快捷操作</text>
+    </view>
+    <view class="quick-actions">
+      <view
+        class="action-card-v2"
+        wx:for="{{quickActions}}"
+        wx:key="id"
+        data-action="{{item.id}}"
+        bindtap="onQuickActionTap"
+      >
+        <view class="action-icon-wrap" style="background: {{item.color}}20;">
+          <text class="action-icon">{{item.icon}}</text>
+        </view>
+        <view class="action-text-wrap">
+          <text class="action-title">{{item.title}}</text>
+          <text class="action-desc">{{item.desc}}</text>
+        </view>
+        <text class="action-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Primary CTA Button -->
+  <view class="cta-section">
+    <button class="btn btn-primary btn-block btn-lg" bindtap="onQuickActionTap" data-action="generate">
+      为企业生成政策服务建议
+    </button>
+  </view>
+
+  <!-- Recent Services -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">最近服务</text>
+      <text class="section-more" wx:if="{{recentServices.length > 0}}">查看全部</text>
+    </view>
+
+    <!-- Service List -->
+    <view class="service-list" wx:if="{{recentServices.length > 0}}">
+      <view
+        class="service-item card"
+        wx:for="{{recentServices}}"
+        wx:key="id"
+        data-service="{{item}}"
+        bindtap="onRecentServiceTap"
+      >
+        <view class="service-header">
+          <view class="service-company">
+            <text class="status-dot {{item.status === 'completed' ? 'status-dot-active' : 'status-dot-pending'}}"></text>
+            <text class="service-company-name">{{item.companyName}}</text>
+          </view>
+          <view class="tag {{item.status === 'completed' ? 'tag-success' : 'tag-warning'}}">
+            {{item.type}}
+          </view>
+        </view>
+        <text class="service-summary">{{item.summary}}</text>
+        <text class="service-date">{{item.date}}</text>
+      </view>
+    </view>
+
+    <!-- Empty State -->
+    <view class="empty-state" wx:else>
+      <text class="empty-state-icon">📭</text>
+      <text class="empty-state-text">暂无服务记录\n点击上方按钮开始为企业服务</text>
+    </view>
+  </view>
+
+  <!-- Park Picker Modal -->
+  <view class="park-picker-mask" wx:if="{{showParkPicker}}" bindtap="onParkPickerClose">
+    <view class="park-picker-panel" catchtap="">
+      <view class="park-picker-header">
+        <text class="park-picker-title">选择园区</text>
+        <text class="park-picker-close" bindtap="onParkPickerClose">✕</text>
+      </view>
+      <scroll-view scroll-y class="park-picker-list">
+        <view
+          class="park-picker-item {{currentPark.id === item.id ? 'active' : ''}}"
+          wx:for="{{parkList}}"
+          wx:key="id"
+        >
+          <picker mode="selector" range="{{parkList}}" range-key="name" bindchange="onParkChange">
+            <view class="park-picker-item-content">
+              <text class="park-picker-item-name">{{item.name}}</text>
+              <text class="park-picker-item-region">{{item.region}}</text>
+            </view>
+          </picker>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- Bottom Safe Area -->
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,6 @@
+# No additional dependencies required - uses tkinter (built-in)
+# Python 3.8+ recommended
+# tkinter is included with the standard Python distribution on macOS
+
+# Optional: for building .app bundle
+# pyinstaller>=6.0

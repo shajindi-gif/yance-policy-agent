@@ -1,0 +1,142 @@
+<!--pages/park/park.wxml-->
+<!--YanCe Policy Agent - Park Workbench | yance.ai-->
+
+<view class="page">
+  <!-- Skeleton Loading Screen -->
+  <view wx:if="{{loading}}">
+    <view class="park-header">
+      <view class="park-header-bg"></view>
+      <view class="park-header-content">
+        <view class="skeleton" style="width: 320rpx; height: 40rpx; margin-bottom: 12rpx;"></view>
+        <view class="skeleton" style="width: 200rpx; height: 28rpx;"></view>
+      </view>
+      <view class="overview-stats">
+        <view class="overview-stat" wx:for="{{[1,2,3,4]}}" wx:key="*this">
+          <view class="skeleton" style="width: 60rpx; height: 40rpx; margin-bottom: 8rpx;"></view>
+          <view class="skeleton" style="width: 80rpx; height: 24rpx;"></view>
+        </view>
+      </view>
+    </view>
+    <view class="section">
+      <view class="skeleton" style="width: 160rpx; height: 36rpx; margin-bottom: 20rpx;"></view>
+      <view style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16rpx;">
+        <view class="skeleton-card" wx:for="{{[1,2,3,4]}}" wx:key="*this" style="padding: 24rpx 8rpx; text-align: center;">
+          <view class="skeleton skeleton-circle" style="margin: 0 auto 12rpx;"></view>
+          <view class="skeleton skeleton-line" style="width: 80%; margin: 0 auto;"></view>
+        </view>
+      </view>
+    </view>
+    <view class="section">
+      <view class="skeleton" style="width: 160rpx; height: 36rpx; margin-bottom: 20rpx;"></view>
+      <view class="skeleton-card" wx:for="{{[1,2,3]}}" wx:key="*this">
+        <view class="skeleton skeleton-line skeleton-line-medium"></view>
+        <view class="skeleton skeleton-line skeleton-line-full"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Actual Content -->
+  <view wx:else>
+    <!-- Park Overview Header -->
+    <view class="park-header">
+      <view class="park-header-bg"></view>
+      <view class="park-header-content">
+        <text class="park-header-name">{{park.name || '园区工作台'}}</text>
+        <text class="park-header-region">{{park.region || '请选择园区'}}</text>
+      </view>
+
+      <!-- Overview Stats -->
+      <view class="overview-stats">
+        <view class="overview-stat">
+          <text class="overview-stat-value">{{overview.companyCount}}</text>
+          <text class="overview-stat-label">入驻企业</text>
+        </view>
+        <view class="overview-stat">
+          <text class="overview-stat-value">{{overview.serviceCount}}</text>
+          <text class="overview-stat-label">服务记录</text>
+        </view>
+        <view class="overview-stat">
+          <text class="overview-stat-value">{{overview.progressRate}}%</text>
+          <text class="overview-stat-label">匹配进度</text>
+        </view>
+        <view class="overview-stat">
+          <text class="overview-stat-value overview-stat-warning">{{overview.pendingTasks}}</text>
+          <text class="overview-stat-label">待处理</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Quick Actions -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">快捷操作</text>
+      </view>
+      <view class="park-actions">
+        <view
+          class="park-action-item"
+          wx:for="{{quickActions}}"
+          wx:key="id"
+          data-action="{{item.id}}"
+          bindtap="onQuickActionTap"
+        >
+          <view class="park-action-icon-wrap">
+            <text class="park-action-icon">{{item.icon}}</text>
+          </view>
+          <text class="park-action-title">{{item.title}}</text>
+          <text class="park-action-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Service Orders -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">服务工单</text>
+        <text class="section-more">查看全部</text>
+      </view>
+      <view class="order-list">
+        <view
+          class="order-item card"
+          wx:for="{{serviceOrders}}"
+          wx:key="id"
+          data-order="{{item}}"
+          bindtap="onOrderTap"
+        >
+          <view class="order-header">
+            <view class="order-company-row">
+              <view class="urgency-dot urgency-{{item.urgency}}"></view>
+              <text class="order-company">{{item.company}}</text>
+            </view>
+            <view class="tag {{item.status === '进行中' ? 'tag-success' : 'tag-warning'}}">
+              {{item.status}}
+            </view>
+          </view>
+          <text class="order-task">{{item.task}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Recent Activities -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">最近动态</text>
+      </view>
+      <view class="activity-list card">
+        <view class="activity-item" wx:for="{{recentActivities}}" wx:key="time">
+          <view class="activity-time">
+            <text>{{item.time}}</text>
+          </view>
+          <view class="activity-line">
+            <view class="activity-dot"></view>
+          </view>
+          <view class="activity-content">
+            <text class="activity-text">{{item.action}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Bottom Safe Area -->
+  <view class="safe-bottom"></view>
+</view>

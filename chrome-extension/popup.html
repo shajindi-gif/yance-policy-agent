@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YanCe Policy Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">Y</div>
+        <div class="logo-text">
+          <h1>YanCe Policy Agent</h1>
+          <span class="subtitle">yance.ai | 园区政策分析助手</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Action Buttons -->
+    <section class="actions">
+      <button id="btn-analyze" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        分析当前政策页面
+      </button>
+      <button id="btn-service-note" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        生成园区服务备注
+      </button>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>正在分析政策内容...</span>
+    </div>
+
+    <!-- Results Area -->
+    <section id="results" class="results hidden">
+      <!-- Policy Name -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#127919;</span> 政策名称
+        </h3>
+        <p id="policy-name" class="card-content card-content-bold"></p>
+      </div>
+
+      <!-- Policy Summary -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#128203;</span> 政策摘要
+        </h3>
+        <p id="policy-summary" class="card-content"></p>
+      </div>
+
+      <!-- Issuing Authority -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#127963;</span> 发文机关
+        </h3>
+        <p id="issuing-authority" class="card-content"></p>
+      </div>
+
+      <!-- Applicable Region -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#127961;</span> 适用区域
+        </h3>
+        <p id="applicable-region" class="card-content"></p>
+      </div>
+
+      <!-- Target Industry -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#127981;</span> 目标产业
+        </h3>
+        <div id="target-industry" class="tag-list"></div>
+      </div>
+
+      <!-- Subsidy Amount -->
+      <div class="result-card result-card-highlight">
+        <h3 class="card-title">
+          <span class="card-icon">&#128176;</span> 补贴金额
+        </h3>
+        <p id="subsidy-amount" class="card-content card-content-highlight"></p>
+      </div>
+
+      <!-- Application Deadline -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#128197;</span> 申报截止日期
+        </h3>
+        <p id="application-deadline" class="card-content"></p>
+      </div>
+
+      <!-- Applicable Enterprise Types -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#127970;</span> 适用企业类型
+        </h3>
+        <div id="enterprise-types" class="tag-list"></div>
+      </div>
+
+      <!-- Application Conditions -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#9989;</span> 申报条件
+        </h3>
+        <ul id="application-conditions" class="card-list"></ul>
+      </div>
+
+      <!-- Material Requirements -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#128196;</span> 申报材料要求
+        </h3>
+        <ul id="material-list" class="card-list"></ul>
+      </div>
+
+      <!-- Risk Tips -->
+      <div class="result-card result-card-warning">
+        <h3 class="card-title">
+          <span class="card-icon">&#9888;&#65039;</span> 风险提示
+        </h3>
+        <ul id="risk-tips" class="card-list"></ul>
+      </div>
+
+      <!-- Service Suggestions -->
+      <div class="result-card result-card-highlight">
+        <h3 class="card-title">
+          <span class="card-icon">&#128161;</span> 企业服务建议
+        </h3>
+        <div id="service-suggestions" class="card-content"></div>
+      </div>
+
+      <!-- Add to Policy Library -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#128218;</span> 加入政策库
+        </h3>
+        <div class="library-action">
+          <label class="toggle-label">
+            <input type="checkbox" id="add-to-library" class="toggle-input">
+            <span class="toggle-switch"></span>
+            将此政策加入园区政策库
+          </label>
+        </div>
+      </div>
+
+      <!-- Next Action Steps -->
+      <div class="result-card">
+        <h3 class="card-title">
+          <span class="card-icon">&#128640;</span> 下一步行动
+        </h3>
+        <ol id="next-steps" class="card-list"></ol>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div class="action-buttons-row">
+        <button id="btn-copy-parkops" class="btn btn-coral">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          复制到 ParkOps
+        </button>
+        <button id="btn-open-dashboard" class="btn btn-teal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          打开 Dashboard
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer / Disclaimer -->
+    <footer class="footer">
+      <p class="disclaimer">
+        &#9432; 本工具生成的分析内容仅供参考，具体以政策原文为准。请结合实际情况进行核实确认。
+      </p>
+      <p class="version">v1.0.0 | yance.ai | YanCe Policy Agent</p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

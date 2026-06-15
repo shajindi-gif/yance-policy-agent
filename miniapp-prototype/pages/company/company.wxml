@@ -1,0 +1,194 @@
+<!--pages/company/company.wxml-->
+<!--YanCe Policy Agent - Company Entry Form | yance.ai-->
+
+<view class="page">
+  <!-- Skeleton Loading Screen -->
+  <view wx:if="{{pageLoading}}">
+    <view class="skeleton-card" style="margin: 20rpx 32rpx;">
+      <view class="skeleton skeleton-line skeleton-line-short" style="margin-bottom: 24rpx;"></view>
+      <view class="skeleton skeleton-line skeleton-line-full"></view>
+      <view class="skeleton skeleton-line skeleton-line-full"></view>
+      <view class="skeleton skeleton-line skeleton-line-medium"></view>
+      <view class="skeleton skeleton-line skeleton-line-full"></view>
+    </view>
+    <view class="skeleton-card" style="margin: 20rpx 32rpx;">
+      <view class="skeleton skeleton-line skeleton-line-short" style="margin-bottom: 24rpx;"></view>
+      <view class="skeleton skeleton-line skeleton-line-full"></view>
+      <view class="skeleton skeleton-line skeleton-line-medium"></view>
+    </view>
+  </view>
+
+  <!-- Actual Content -->
+  <view wx:else>
+    <!-- Top Action Bar -->
+    <view class="top-actions">
+      <button class="btn btn-secondary btn-sm" bindtap="onPreFillTap">
+        填入示例数据
+      </button>
+      <button class="btn btn-outline btn-sm" bindtap="onResetTap">
+        重置表单
+      </button>
+    </view>
+
+    <!-- Basic Info Section -->
+    <view class="form-section card">
+      <view class="form-section-title">基本信息</view>
+
+      <!-- Company Name -->
+      <view class="form-group">
+        <text class="form-label">企业名称 <text class="required">*</text></text>
+        <input class="form-input" placeholder="请输入企业全称" value="{{companyName}}" bindinput="onCompanyNameInput" />
+      </view>
+
+      <!-- Contact Person -->
+      <view class="form-group">
+        <text class="form-label">联系人 <text class="required">*</text></text>
+        <input class="form-input" placeholder="请输入联系人姓名" value="{{contactPerson}}" bindinput="onContactPersonInput" />
+      </view>
+
+      <!-- Contact Phone -->
+      <view class="form-group">
+        <text class="form-label">联系电话</text>
+        <input class="form-input" type="number" placeholder="请输入联系电话" value="{{contactPhone}}" bindinput="onContactPhoneInput" />
+      </view>
+
+      <!-- Region Picker -->
+      <view class="form-group">
+        <text class="form-label">所在区域</text>
+        <picker mode="selector" range="{{regions}}" value="{{regionIndex}}" bindchange="onRegionChange">
+          <view class="form-picker">
+            <text>{{regions[regionIndex] || '请选择区域'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- Industry Picker -->
+      <view class="form-group">
+        <text class="form-label">所属行业</text>
+        <picker mode="selector" range="{{industries}}" value="{{industryIndex}}" bindchange="onIndustryChange">
+          <view class="form-picker">
+            <text>{{industries[industryIndex] || '请选择行业'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- Company Type Picker -->
+      <view class="form-group">
+        <text class="form-label">企业类型</text>
+        <picker mode="selector" range="{{companyTypes}}" value="{{companyTypeIndex}}" bindchange="onCompanyTypeChange">
+          <view class="form-picker">
+            <text>{{companyTypes[companyTypeIndex] || '请选择企业类型'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- Registered Capital -->
+      <view class="form-group">
+        <text class="form-label">注册资本（万元）</text>
+        <input class="form-input" type="digit" placeholder="请输入注册资本" value="{{registeredCapital}}" bindinput="onRegisteredCapitalInput" />
+      </view>
+
+      <!-- Established Year -->
+      <view class="form-group">
+        <text class="form-label">成立年份</text>
+        <input class="form-input" type="number" placeholder="如：2020" value="{{establishedYear}}" bindinput="onEstablishedYearInput" />
+      </view>
+
+      <!-- Employee Count -->
+      <view class="form-group">
+        <text class="form-label">员工人数</text>
+        <input class="form-input" type="number" placeholder="请输入员工人数" value="{{employeeCount}}" bindinput="onEmployeeCountInput" />
+      </view>
+    </view>
+
+    <!-- Needs Section -->
+    <view class="form-section card">
+      <view class="form-section-title">当前需求</view>
+      <view class="needs-grid">
+        <view
+          class="need-chip {{item.checked ? 'need-chip-active' : ''}}"
+          wx:for="{{needs}}"
+          wx:key="key"
+          data-index="{{index}}"
+          bindtap="onNeedToggle"
+        >
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Certifications Section -->
+    <view class="form-section card">
+      <view class="form-section-title">已有资质认定</view>
+      <view class="cert-list">
+        <view class="cert-item" bindtap="onCertToggle" data-cert="highTech">
+          <view class="cert-checkbox {{certifications.highTech ? 'checked' : ''}}">
+            <text wx:if="{{certifications.highTech}}">✓</text>
+          </view>
+          <text class="cert-label">高新技术企业</text>
+        </view>
+        <view class="cert-item" bindtap="onCertToggle" data-cert="specialized">
+          <view class="cert-checkbox {{certifications.specialized ? 'checked' : ''}}">
+            <text wx:if="{{certifications.specialized}}">✓</text>
+          </view>
+          <text class="cert-label">专精特新企业</text>
+        </view>
+        <view class="cert-item" bindtap="onCertToggle" data-cert="sciSme">
+          <view class="cert-checkbox {{certifications.sciSme ? 'checked' : ''}}">
+            <text wx:if="{{certifications.sciSme}}">✓</text>
+          </view>
+          <text class="cert-label">科技型中小企业</text>
+        </view>
+        <view class="cert-item" bindtap="onCertToggle" data-cert="unicorn">
+          <view class="cert-checkbox {{certifications.unicorn ? 'checked' : ''}}">
+            <text wx:if="{{certifications.unicorn}}">✓</text>
+          </view>
+          <text class="cert-label">独角兽企业</text>
+        </view>
+        <view class="cert-item" bindtap="onCertToggle" data-cert="gazelle">
+          <view class="cert-checkbox {{certifications.gazelle ? 'checked' : ''}}">
+            <text wx:if="{{certifications.gazelle}}">✓</text>
+          </view>
+          <text class="cert-label">瞪羚企业</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Business Data Section -->
+    <view class="form-section card">
+      <view class="form-section-title">经营数据</view>
+
+      <view class="form-group">
+        <text class="form-label">知识产权数量（件）</text>
+        <input class="form-input" type="number" placeholder="专利+软著+商标总数" value="{{ipCount}}" bindinput="onIpCountInput" />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">研发投入占比（%）</text>
+        <input class="form-input" type="digit" placeholder="研发费用/营收" value="{{rdRatio}}" bindinput="onRdRatioInput" />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">年度营收（万元）</text>
+        <input class="form-input" type="digit" placeholder="上年度营业收入" value="{{annualRevenue}}" bindinput="onAnnualRevenueInput" />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">企业简介</text>
+        <textarea class="form-textarea" placeholder="简要描述企业主营业务、核心技术等" value="{{description}}" bindinput="onDescriptionInput" />
+      </view>
+    </view>
+
+    <!-- Submit Button -->
+    <view class="submit-section">
+      <button class="btn btn-primary btn-block btn-lg" bindtap="onSubmitTap" disabled="{{submitting}}">
+        {{submitting ? '提交中...' : '保存并生成报告'}}
+      </button>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

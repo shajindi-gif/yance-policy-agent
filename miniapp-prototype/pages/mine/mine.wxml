@@ -1,0 +1,112 @@
+<!--pages/mine/mine.wxml-->
+<!--YanCe Policy Agent - My Profile Page-->
+
+<view class="page">
+  <!-- Profile Header -->
+  <view class="profile-header">
+    <view class="profile-header-bg"></view>
+    <view class="profile-content">
+      <!-- User Avatar & Info -->
+      <view class="profile-info" wx:if="{{isLoggedIn}}">
+        <view class="avatar">
+          <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" class="avatar-img" />
+          <text wx:else class="avatar-placeholder">{{userInfo.nickName[0] || '?'}}</text>
+        </view>
+        <view class="profile-text">
+          <text class="profile-name">{{userInfo.nickName}}</text>
+          <text class="profile-role">园区管理员</text>
+        </view>
+      </view>
+
+      <!-- Login Prompt -->
+      <view class="profile-info" wx:else bindtap="onLoginTap">
+        <view class="avatar avatar-login">
+          <text class="avatar-placeholder">?</text>
+        </view>
+        <view class="profile-text">
+          <text class="profile-name">点击登录</text>
+          <text class="profile-role">登录后享受更多功能</text>
+        </view>
+      </view>
+
+      <!-- Stats -->
+      <view class="profile-stats" wx:if="{{isLoggedIn}}">
+        <view class="profile-stat">
+          <text class="profile-stat-value">{{stats.reportCount}}</text>
+          <text class="profile-stat-label">报告</text>
+        </view>
+        <view class="profile-stat">
+          <text class="profile-stat-value">{{stats.companyCount}}</text>
+          <text class="profile-stat-label">企业</text>
+        </view>
+        <view class="profile-stat">
+          <text class="profile-stat-value">{{stats.matchCount}}</text>
+          <text class="profile-stat-label">匹配</text>
+        </view>
+        <view class="profile-stat">
+          <text class="profile-stat-value">{{stats.serviceDays}}</text>
+          <text class="profile-stat-label">服务天数</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Quick Settings -->
+  <view class="quick-settings card">
+    <view class="setting-row" bindtap="onSettingToggle" data-key="autoSync">
+      <view class="setting-info">
+        <text class="setting-label">自动同步</text>
+        <text class="setting-desc">自动同步政策数据到云端</text>
+      </view>
+      <switch checked="{{settings.autoSync}}" color="#0ea5e9" class="setting-switch" />
+    </view>
+    <view class="setting-row" bindtap="onSettingToggle" data-key="pushNotification">
+      <view class="setting-info">
+        <text class="setting-label">推送通知</text>
+        <text class="setting-desc">接收新政策和申报提醒</text>
+      </view>
+      <switch checked="{{settings.pushNotification}}" color="#0ea5e9" class="setting-switch" />
+    </view>
+  </view>
+
+  <!-- Menu Groups -->
+  <view class="menu-section" wx:for="{{menuGroups}}" wx:key="title">
+    <text class="menu-group-title">{{item.title}}</text>
+    <view class="menu-card card">
+      <view
+        class="menu-item"
+        wx:for="{{item.items}}"
+        wx:for-item="menu"
+        wx:key="id"
+        data-id="{{menu.id}}"
+        bindtap="onMenuTap"
+      >
+        <view class="menu-item-left">
+          <text class="menu-icon">{{menu.icon}}</text>
+          <text class="menu-label">{{menu.label}}</text>
+        </view>
+        <view class="menu-item-right">
+          <view class="menu-badge" wx:if="{{menu.badge > 0}}">
+            <text>{{menu.badge}}</text>
+          </view>
+          <text class="menu-extra" wx:if="{{menu.extra}}">{{menu.extra}}</text>
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Logout Button -->
+  <view class="logout-section" wx:if="{{isLoggedIn}}">
+    <button class="btn btn-block btn-logout" bindtap="onLogoutTap">退出登录</button>
+  </view>
+
+  <!-- Footer -->
+  <view class="mine-footer">
+    <text class="footer-text">YanCe Policy Agent v1.0.0</text>
+    <text class="footer-text">yance.ai</text>
+    <text class="footer-text">© 2025 YanCe Policy Agent</text>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

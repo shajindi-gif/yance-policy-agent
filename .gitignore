@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+.env
+.env.local
+ai-policy-demo/.git
+ai-policy-demo/node_modules
+ai-policy-demo/.venv
+ai-policy-demo/__pycache__
+ai-policy-demo/.pytest_cache

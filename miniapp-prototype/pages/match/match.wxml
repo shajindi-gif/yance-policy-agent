@@ -1,0 +1,166 @@
+<!--pages/match/match.wxml-->
+<!--YanCe Policy Agent - Policy Matching Results | yance.ai-->
+
+<view class="page">
+  <!-- Company Info Bar -->
+  <view class="company-bar" wx:if="{{company}}">
+    <view class="company-bar-info">
+      <text class="company-bar-name">{{company.name}}</text>
+      <text class="company-bar-meta">{{company.industry}} · {{company.region}}</text>
+    </view>
+    <button class="btn btn-sm btn-outline" bindtap="onRematchTap">重新匹配</button>
+  </view>
+
+  <!-- Improved Matching Animation -->
+  <view class="matching-loading" wx:if="{{matching}}">
+    <view class="matching-animation">
+      <!-- Pulsing rings -->
+      <view class="pulse-ring pulse-ring-1"></view>
+      <view class="pulse-ring pulse-ring-2"></view>
+      <view class="pulse-ring pulse-ring-3"></view>
+      <!-- Center icon -->
+      <view class="matching-center-icon">
+        <text>🔍</text>
+      </view>
+    </view>
+    <text class="matching-text">正在进行政策匹配分析...</text>
+    <view class="matching-steps">
+      <view class="matching-step {{matchStep >= 1 ? 'step-active' : ''}}">
+        <view class="step-dot"></view>
+        <text>扫描政策数据库</text>
+      </view>
+      <view class="matching-step {{matchStep >= 2 ? 'step-active' : ''}}">
+        <view class="step-dot"></view>
+        <text>匹配企业画像</text>
+      </view>
+      <view class="matching-step {{matchStep >= 3 ? 'step-active' : ''}}">
+        <view class="step-dot"></view>
+        <text>计算匹配评分</text>
+      </view>
+    </view>
+    <text class="matching-sub">yance.ai 智能匹配引擎</text>
+  </view>
+
+  <!-- Match Results -->
+  <view wx:if="{{matchComplete}}">
+    <!-- Match Summary -->
+    <view class="match-summary card">
+      <view class="summary-header">
+        <text class="summary-title">匹配结果概览</text>
+        <view class="score-circle">
+          <text class="score-value">{{matchSummary.overallScore}}</text>
+          <text class="score-label">综合分</text>
+        </view>
+      </view>
+
+      <view class="summary-stats">
+        <view class="summary-stat">
+          <view class="summary-stat-bar summary-stat-high">
+            <text class="summary-stat-count">{{matchSummary.highMatch}}</text>
+          </view>
+          <text class="summary-stat-label">高匹配</text>
+        </view>
+        <view class="summary-stat">
+          <view class="summary-stat-bar summary-stat-medium">
+            <text class="summary-stat-count">{{matchSummary.mediumMatch}}</text>
+          </view>
+          <text class="summary-stat-label">中匹配</text>
+        </view>
+        <view class="summary-stat">
+          <view class="summary-stat-bar summary-stat-low">
+            <text class="summary-stat-count">{{matchSummary.lowMatch}}</text>
+          </view>
+          <text class="summary-stat-label">低匹配</text>
+        </view>
+      </view>
+
+      <text class="summary-total">共匹配到 {{matchSummary.totalPolicies}} 条相关政策</text>
+    </view>
+
+    <!-- Policy List -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">匹配政策列表</text>
+      </view>
+
+      <view
+        class="policy-card card {{expandedPolicy === item.id ? 'expanded' : ''}}"
+        wx:for="{{matchedPolicies}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onPolicyTap"
+      >
+        <!-- Policy Header -->
+        <view class="policy-header">
+          <view class="policy-title-row">
+            <view class="match-score match-score-{{item.matchLevel}}">
+              <text>{{item.score}}</text>
+            </view>
+            <view class="policy-title-info">
+              <text class="policy-title">{{item.title}}</text>
+              <view class="policy-meta">
+                <view class="tag">{{item.level}}</view>
+                <text class="policy-window">{{item.window}}</text>
+                <view class="tag {{item.status === '开放中' ? 'tag-success' : 'tag-warning'}}">{{item.status}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- Expanded Detail -->
+        <view class="policy-detail" wx:if="{{expandedPolicy === item.id}}">
+          <view class="detail-section">
+            <text class="detail-label">支持内容</text>
+            <text class="detail-content">{{item.supportContent}}</text>
+          </view>
+
+          <view class="detail-section">
+            <text class="detail-label">申报条件符合度</text>
+            <view class="condition-list">
+              <view class="condition-item" wx:for="{{item.conditions}}" wx:for-item="cond" wx:key="text">
+                <text class="condition-icon {{cond.met ? 'met' : 'unmet'}}">{{cond.met ? '✓' : '✗'}}</text>
+                <text class="condition-text">{{cond.text}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="detail-section" wx:if="{{item.missingMaterials.length > 0}}">
+            <text class="detail-label">缺少的材料</text>
+            <view class="missing-list">
+              <text class="missing-item" wx:for="{{item.missingMaterials}}" wx:for-item="mat" wx:key="*this">
+                · {{mat}}
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Material Gaps -->
+    <view class="section" wx:if="{{materialGaps.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">材料缺口清单</text>
+      </view>
+      <view class="gaps-card card">
+        <view class="gap-item" wx:for="{{materialGaps}}" wx:key="item">
+          <view class="gap-header">
+            <view class="tag tag-{{item.priority === 'high' ? 'danger' : item.priority === 'medium' ? 'warning' : 'success'}}">
+              {{item.priority === 'high' ? '紧急' : item.priority === 'medium' ? '重要' : '一般'}}
+            </view>
+            <text class="gap-item-name">{{item.item}}</text>
+          </view>
+          <text class="gap-suggestion">{{item.suggestion}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Generate Report Button -->
+    <view class="report-cta">
+      <button class="btn btn-primary btn-block btn-lg" bindtap="onGenerateReport">
+        生成完整服务报告
+      </button>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

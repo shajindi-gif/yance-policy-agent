@@ -1,0 +1,132 @@
+<!--pages/report/report.wxml-->
+<!--YanCe Policy Agent - Service Report Display | yance.ai-->
+
+<view class="page">
+  <!-- Report Header -->
+  <view class="report-header">
+    <view class="report-header-bg"></view>
+    <view class="report-header-content">
+      <view class="report-header-top">
+        <view class="report-logo">
+          <text class="report-logo-text">Y</text>
+        </view>
+        <view class="report-header-actions">
+          <button class="share-btn" open-type="share">
+            <text>分享</text>
+          </button>
+          <button class="export-btn" bindtap="onExportTap">
+            <text>导出</text>
+          </button>
+        </view>
+      </view>
+      <text class="report-brand">yance.ai</text>
+      <text class="report-title">政策服务报告</text>
+      <text class="report-company">{{company.name || '企业名称'}}</text>
+      <text class="report-meta">{{reportMeta.id}} | {{reportMeta.generatedAt}}</text>
+    </view>
+  </view>
+
+  <!-- Loading State -->
+  <view class="report-loading" wx:if="{{loading}}">
+    <view class="matching-spinner"></view>
+    <text class="loading-text">正在生成报告...</text>
+  </view>
+
+  <!-- Report Content -->
+  <view class="report-content" wx:if="{{reportGenerated}}">
+    <!-- Table of Contents -->
+    <view class="toc-card card">
+      <text class="toc-title">报告目录</text>
+      <view class="toc-list">
+        <view class="toc-item" wx:for="{{sections}}" wx:key="id">
+          <text class="toc-number">{{item.id}}.</text>
+          <text class="toc-text">{{item.icon}} {{item.title}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Report Sections -->
+    <view class="report-section card" wx:for="{{sections}}" wx:key="id">
+      <view class="section-title-row">
+        <text class="section-number">{{item.id}}</text>
+        <text class="section-icon">{{item.icon}}</text>
+        <text class="section-name">{{item.title}}</text>
+      </view>
+
+      <!-- Render section content items -->
+      <block wx:for="{{item.content}}" wx:for-item="block" wx:for-index="bidx" wx:key="bidx">
+        <!-- Text -->
+        <view wx:if="{{block.type === 'text'}}" class="block-text">
+          <text>{{block.value}}</text>
+        </view>
+
+        <!-- Subtitle -->
+        <view wx:if="{{block.type === 'subtitle'}}" class="block-subtitle">
+          <text>{{block.value}}</text>
+        </view>
+
+        <!-- List -->
+        <view wx:if="{{block.type === 'list'}}" class="block-list">
+          <view class="block-list-item" wx:for="{{block.items}}" wx:for-item="li" wx:for-index="lidx" wx:key="lidx">
+            <text class="list-bullet">·</text>
+            <text class="list-text">{{li}}</text>
+          </view>
+        </view>
+
+        <!-- Warning List -->
+        <view wx:if="{{block.type === 'warning_list'}}" class="block-warning-list">
+          <view class="warning-item" wx:for="{{block.items}}" wx:for-item="wi" wx:for-index="widx" wx:key="widx">
+            <text class="warning-icon">⚠</text>
+            <text class="warning-text">{{wi}}</text>
+          </view>
+        </view>
+
+        <!-- Checklist -->
+        <view wx:if="{{block.type === 'checklist'}}" class="block-checklist">
+          <view class="checklist-item" wx:for="{{block.items}}" wx:for-item="ci" wx:for-index="cidx" wx:key="cidx">
+            <text class="checklist-icon {{ci.checked ? 'checked' : ''}}">{{ci.checked ? '✓' : '○'}}</text>
+            <text class="checklist-text">{{ci.text}}</text>
+          </view>
+        </view>
+
+        <!-- Table -->
+        <view wx:if="{{block.type === 'table'}}" class="block-table">
+          <view class="table-row {{index === 0 ? 'table-header' : ''}}" wx:for="{{block.rows}}" wx:for-item="row" wx:for-index="ridx" wx:key="ridx">
+            <text class="table-cell table-cell-label" wx:for="{{row}}" wx:for-item="cell" wx:for-index="cidx" wx:key="cidx">{{cell}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- Share Section -->
+    <view class="share-section">
+      <button class="btn btn-coral btn-block" open-type="share">
+        分享报告给同事
+      </button>
+    </view>
+
+    <!-- Export Menu -->
+    <view class="export-section">
+      <view class="export-options" wx:if="{{showExportMenu}}">
+        <view
+          class="export-option"
+          wx:for="{{exportOptions}}"
+          wx:key="id"
+          data-option="{{item.id}}"
+          bindtap="onExportOptionTap"
+        >
+          <text class="export-option-icon">{{item.icon}}</text>
+          <text class="export-option-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Disclaimer -->
+    <view class="disclaimer">
+      <text class="disclaimer-text">本报告由 YanCe Policy Agent (yance.ai) 自动生成，内容仅供参考。具体政策信息以官方发布为准，请结合实际情况进行核实确认。</text>
+      <text class="disclaimer-brand">yance.ai | YanCe Policy Agent v{{reportMeta.version}}</text>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,439 @@
+/* ============================================
+   YanCe Policy Agent - Chrome Extension Styles
+   Navy (#0d1b2a) / Teal (#0ea5e9) / Coral (#f97316)
+   Brand: yance.ai
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 420px;
+  min-height: 520px;
+  max-height: 600px;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #0d1b2a;
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.container {
+  padding: 16px;
+}
+
+/* Scrollbar */
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0d1b2a;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 3px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.header {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.logo-text h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: #f97316;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}
+
+/* ============================================
+   Action Buttons
+   ============================================ */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: rgba(14, 165, 233, 0.1);
+  color: #7dd3fc;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(14, 165, 233, 0.2);
+  color: #bae6fd;
+  border-color: rgba(14, 165, 233, 0.4);
+}
+
+.btn-coral {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.btn-coral:hover:not(:disabled) {
+  background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-teal {
+  background: rgba(14, 165, 233, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.btn-teal:hover:not(:disabled) {
+  background: rgba(14, 165, 233, 0.25);
+  color: #bae6fd;
+  border-color: rgba(14, 165, 233, 0.5);
+}
+
+/* Action buttons row (below results) */
+.action-buttons-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.action-buttons-row .btn {
+  flex: 1;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+/* ============================================
+   Loading State
+   ============================================ */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  border-top-color: #0ea5e9;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Results Cards
+   ============================================ */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-card {
+  background: rgba(17, 34, 64, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: border-color 0.2s ease;
+}
+
+.result-card:hover {
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.result-card-warning {
+  border-color: rgba(251, 191, 36, 0.25);
+  background: rgba(251, 191, 36, 0.04);
+}
+
+.result-card-highlight {
+  border-color: rgba(52, 211, 153, 0.25);
+  background: rgba(52, 211, 153, 0.04);
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7dd3fc;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+}
+
+.result-card-warning .card-title {
+  color: #fbbf24;
+}
+
+.result-card-highlight .card-title {
+  color: #34d399;
+}
+
+.card-icon {
+  font-size: 14px;
+}
+
+.card-content {
+  font-size: 12.5px;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.card-content-bold {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.card-content-highlight {
+  font-size: 14px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.card-list {
+  list-style: none;
+  padding: 0;
+}
+
+.card-list li {
+  font-size: 12.5px;
+  color: #cbd5e1;
+  padding: 3px 0;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.card-list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0ea5e9;
+}
+
+.result-card-warning .card-list li::before {
+  background: #fbbf24;
+}
+
+ol.card-list {
+  counter-reset: step-counter;
+}
+
+ol.card-list li {
+  counter-increment: step-counter;
+  padding-left: 22px;
+}
+
+ol.card-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  background: rgba(14, 165, 233, 0.15);
+  color: #7dd3fc;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   Tags
+   ============================================ */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(14, 165, 233, 0.12);
+  color: #7dd3fc;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.tag-coral {
+  background: rgba(249, 115, 22, 0.12);
+  color: #fb923c;
+  border-color: rgba(249, 115, 22, 0.25);
+}
+
+/* ============================================
+   Toggle Switch (Add to Library)
+   ============================================ */
+.library-action {
+  padding: 4px 0;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #1e3a5f;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background: #64748b;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toggle-input:checked + .toggle-switch {
+  background: #0ea5e9;
+}
+
+.toggle-input:checked + .toggle-switch::after {
+  left: 18px;
+  background: #fff;
+}
+
+/* ============================================
+   Footer / Disclaimer
+   ============================================ */
+.footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(14, 165, 233, 0.1);
+  text-align: center;
+}
+
+.disclaimer {
+  font-size: 10.5px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.version {
+  font-size: 10px;
+  color: #334155;
+}
+
+/* ============================================
+   Utility
+   ============================================ */
+.hidden {
+  display: none !important;
+}
