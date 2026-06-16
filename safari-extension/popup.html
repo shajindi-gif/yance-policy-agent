@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YanCe Policy Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <img src="icons/icon48.png" alt="YanCe" class="logo-img" width="32" height="32">
+        <div class="logo-text">
+          <h1>YanCe Policy Agent</h1>
+          <span class="subtitle">yance.ai · 8维匹配引擎</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="extract">提取</button>
+      <button class="tab-btn" data-tab="company">企业</button>
+      <button class="tab-btn" data-tab="match">匹配</button>
+      <button class="tab-btn" data-tab="ticket">工单</button>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>正在分析...</span>
+    </div>
+
+    <!-- ===== TAB 1: 政策提取 ===== -->
+    <section id="panel-extract" class="panel active">
+      <button id="btn-extract" class="btn btn-primary btn-full">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+        </svg>
+        提取当前页面政策
+      </button>
+
+      <div id="extract-results" class="results hidden">
+        <div class="result-card">
+          <h3 class="card-title"><span class="card-icon">&#127919;</span> 政策名称</h3>
+          <p id="ex-policy-name" class="card-content card-content-bold"></p>
+        </div>
+        <div class="result-card">
+          <h3 class="card-title"><span class="card-icon">&#127963;</span> 发文机构</h3>
+          <p id="ex-issuing-authority" class="card-content"></p>
+        </div>
+        <div class="result-card">
+          <h3 class="card-title"><span class="card-icon">&#127981;</span> 适用行业</h3>
+          <div id="ex-target-industry" class="tag-list"></div>
+        </div>
+        <div class="result-card result-card-highlight">
+          <h3 class="card-title"><span class="card-icon">&#128176;</span> 补贴金额</h3>
+          <p id="ex-subsidy-amount" class="card-content card-content-highlight"></p>
+        </div>
+        <div class="result-card">
+          <h3 class="card-title"><span class="card-icon">&#128197;</span> 申报期限</h3>
+          <p id="ex-application-deadline" class="card-content"></p>
+        </div>
+        <div class="result-card">
+          <h3 class="card-title"><span class="card-icon">&#128196;</span> 材料要求</h3>
+          <ul id="ex-material-list" class="card-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB 2: 企业画像 ===== -->
+    <section id="panel-company" class="panel">
+      <div id="company-list-area">
+        <div class="panel-header">
+          <span class="panel-title">已保存的企业画像</span>
+          <button id="btn-add-company" class="btn btn-sm btn-teal">+ 新增</button>
+        </div>
+        <div id="company-list" class="company-list"></div>
+        <div id="no-companies" class="empty-state hidden">
+          <p>暂无企业画像</p>
+          <p class="empty-hint">点击下方按钮添加第一家企业</p>
+        </div>
+      </div>
+
+      <div id="company-form-area" class="hidden">
+        <div class="panel-header">
+          <button id="btn-back-list" class="btn btn-sm btn-ghost">← 返回</button>
+          <span class="panel-title" id="form-title">新增企业</span>
+        </div>
+        <form id="company-form" class="company-form">
+          <input type="hidden" id="cf-id">
+          <div class="form-row">
+            <label>企业名称 *</label>
+            <input type="text" id="cf-name" required placeholder="如：衍策引擎科技有限公司">
+          </div>
+          <div class="form-row-inline">
+            <div class="form-row">
+              <label>行业 *</label>
+              <select id="cf-industry" required>
+                <option value="人工智能">人工智能</option>
+                <option value="生物医药">生物医药</option>
+                <option value="集成电路">集成电路</option>
+                <option value="新材料">新材料</option>
+                <option value="新能源">新能源</option>
+                <option value="智能制造">智能制造</option>
+                <option value="大数据">大数据</option>
+                <option value="文化创意">文化创意</option>
+                <option value="先进制造">先进制造</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>阶段 *</label>
+              <select id="cf-stage" required>
+                <option value="初创期">初创期</option>
+                <option value="成长期">成长期</option>
+                <option value="成熟期">成熟期</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>所在区域 *</label>
+            <input type="text" id="cf-region" required placeholder="如：上海市徐汇区">
+          </div>
+          <div class="form-row">
+            <label>所在园区</label>
+            <input type="text" id="cf-park" placeholder="如：漕河泾开发区">
+          </div>
+          <div class="form-row-inline">
+            <div class="form-row">
+              <label>员工人数</label>
+              <input type="number" id="cf-employees" min="0" value="10">
+            </div>
+            <div class="form-row">
+              <label>研发占比(%)</label>
+              <input type="number" id="cf-rd-ratio" min="0" max="100" step="0.1" value="5">
+            </div>
+          </div>
+          <div class="form-row-inline">
+            <div class="form-row">
+              <label>知识产权数</label>
+              <input type="number" id="cf-ip-count" min="0" value="0">
+            </div>
+            <div class="form-row">
+              <label>成立年份</label>
+              <input type="number" id="cf-founded" min="1900" max="2030" value="2023">
+            </div>
+          </div>
+          <div class="form-checks">
+            <label class="checkbox-label"><input type="checkbox" id="cf-has-ip"> 拥有知识产权</label>
+            <label class="checkbox-label"><input type="checkbox" id="cf-has-high-tech"> 高企认定</label>
+            <label class="checkbox-label"><input type="checkbox" id="cf-is-sme"> 中小企业认定</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-full">保存企业画像</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== TAB 3: 匹配分析 ===== -->
+    <section id="panel-match" class="panel">
+      <div class="match-controls">
+        <div class="form-row">
+          <label>选择企业</label>
+          <select id="match-company-select" class="select-full">
+            <option value="">-- 请先添加企业画像 --</option>
+          </select>
+        </div>
+        <button id="btn-run-match" class="btn btn-primary btn-full" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          运行 8 维匹配分析
+        </button>
+      </div>
+
+      <div id="match-results-area" class="hidden">
+        <div class="match-summary" id="match-summary"></div>
+        <div id="match-cards" class="match-cards"></div>
+        <div class="match-actions">
+          <button id="btn-copy-report" class="btn btn-coral btn-full">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            复制完整报告到剪贴板
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB 4: 服务工单 ===== -->
+    <section id="panel-ticket" class="panel">
+      <div id="no-tickets" class="empty-state">
+        <p>暂无工单</p>
+        <p class="empty-hint">请先在「匹配」面板运行分析，系统会自动为匹配度 ≥ 50 的政策生成工单</p>
+      </div>
+      <div id="tickets-area" class="hidden">
+        <div class="panel-header">
+          <span class="panel-title">自动生成的服务工单</span>
+          <span class="badge-count" id="ticket-count">0</span>
+        </div>
+        <div id="ticket-cards" class="ticket-cards"></div>
+        <div class="ticket-actions">
+          <button id="btn-copy-all-tickets" class="btn btn-coral btn-full">复制全部工单到 ParkOps</button>
+          <button id="btn-open-dashboard" class="btn btn-teal btn-full">打开 yance.ai Dashboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-box">
+      <p class="disclaimer">ⓘ 本插件为辅助工具，所有推荐需经人工复核</p>
+    </div>
+
+    <footer class="footer">
+      <p class="version">v2.0.0 | 8维匹配引擎 | yance.ai</p>
+    </footer>
+  </div>
+
+  <script src="matching.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
