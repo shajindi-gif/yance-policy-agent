@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "YanCe Policy Agent",
-  "version": "1.0.0",
-  "description": "yance.ai 园区政策分析助手 - 自动提取政策要点，生成结构化企业服务建议与 ParkOps 工单",
-  "permissions": ["activeTab", "scripting"],
+  "version": "2.0.0",
+  "description": "yance.ai 园区政策匹配引擎 — 8维加权匹配、材料缺口分析、服务工单生成、ParkOps同步",
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
