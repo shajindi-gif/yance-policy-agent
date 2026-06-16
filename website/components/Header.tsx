@@ -38,6 +38,12 @@ const productLinks = [
     title: 'ParkOps',
     desc: '园区企业服务工作台',
   },
+  {
+    href: '/chrome-extension',
+    icon: '🧩',
+    title: 'Policy Clipper',
+    desc: 'Chrome插件 · 一键提取政策要点',
+  },
 ];
 
 const solutionLinks = [

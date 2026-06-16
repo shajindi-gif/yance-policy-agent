@@ -800,8 +800,8 @@ export default function HomePage() {
                   Dashboard 快速入口
                 </li>
               </ul>
-              <Link href="/demo" className="btn btn-outline platform-card-btn">
-                安装插件
+              <Link href="/chrome-extension" className="btn btn-outline platform-card-btn">
+                查看插件详情
               </Link>
             </div>
 
