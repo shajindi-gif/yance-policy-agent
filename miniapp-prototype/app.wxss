@@ -1,8 +1,22 @@
 /* ============================================
    YanCe Policy Agent Mini Program - Global Styles
    Navy (#0d1b2a) / Teal (#0ea5e9) / Coral (#f97316)
-   Brand: yance.ai
+   Brand: yance.ai  |  Version 1.0.0
    ============================================ */
+
+/* ============================================
+   CSS Variables via class conventions
+   ============================================ */
+/* Primary: Navy #0d1b2a
+   Accent:  Teal #0ea5e9
+   Action:  Coral #f97316
+   Surface: #f5f6fa
+   Card:    #ffffff
+   Text:    #1a1a2e / #374151 / #64748b / #94a3b8
+   Border:  #e2e8f0 / #f1f5f9
+   Success: #10b981
+   Warning: #f59e0b
+   Danger:  #ef4444 */
 
 /* Reset & Base */
 page {
@@ -16,10 +30,8 @@ page {
 }
 
 /* ============================================
-   Color Variables (used via class names)
+   Color Utility Classes
    ============================================ */
-
-/* Primary Colors — Navy/Teal/Coral */
 .text-primary { color: #0ea5e9; }
 .text-secondary { color: #64748b; }
 .text-success { color: #10b981; }
@@ -77,21 +89,30 @@ page {
 }
 
 /* ============================================
-   Card Component
+   Card Component (improved shadows & radius)
    ============================================ */
 .card {
   background: #ffffff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 28rpx 32rpx;
   margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 24rpx rgba(13, 27, 42, 0.06);
 }
 
 .card-dark {
   background: #0d1b2a;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 28rpx 32rpx;
   margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 24rpx rgba(13, 27, 42, 0.15);
+}
+
+.card-elevated {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 40rpx rgba(13, 27, 42, 0.10);
 }
 
 .card-title {
@@ -115,11 +136,12 @@ page {
   align-items: center;
   justify-content: center;
   padding: 20rpx 40rpx;
-  border-radius: 12rpx;
+  border-radius: 14rpx;
   font-size: 28rpx;
   font-weight: 600;
   border: none;
   line-height: 1.4;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
 .btn::after {
@@ -129,10 +151,12 @@ page {
 .btn-primary {
   background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   color: #ffffff;
+  box-shadow: 0 4rpx 16rpx rgba(14, 165, 233, 0.25);
 }
 
 .btn-primary:active {
   opacity: 0.85;
+  transform: scale(0.97);
 }
 
 .btn-secondary {
@@ -148,16 +172,22 @@ page {
 .btn-coral {
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   color: #ffffff;
+  box-shadow: 0 4rpx 16rpx rgba(249, 115, 22, 0.25);
 }
 
 .btn-coral:active {
   opacity: 0.85;
+  transform: scale(0.97);
 }
 
 .btn-outline {
   background: transparent;
   color: #0ea5e9;
   border: 2rpx solid #0ea5e9;
+}
+
+.btn-outline:active {
+  background: #e0f2fe;
 }
 
 .btn-block {
@@ -167,7 +197,7 @@ page {
 .btn-sm {
   padding: 12rpx 24rpx;
   font-size: 24rpx;
-  border-radius: 8rpx;
+  border-radius: 10rpx;
 }
 
 .btn-lg {
@@ -191,7 +221,7 @@ page {
 
 .form-input {
   width: 100%;
-  height: 80rpx;
+  height: 84rpx;
   background: #f8fafc;
   border: 2rpx solid #e2e8f0;
   border-radius: 12rpx;
@@ -199,10 +229,12 @@ page {
   font-size: 28rpx;
   color: #1a1a2e;
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-input:focus {
+.form-input-focus {
   border-color: #0ea5e9;
+  box-shadow: 0 0 0 4rpx rgba(14, 165, 233, 0.1);
 }
 
 .form-textarea {
@@ -219,7 +251,7 @@ page {
 
 .form-picker {
   width: 100%;
-  height: 80rpx;
+  height: 84rpx;
   background: #f8fafc;
   border: 2rpx solid #e2e8f0;
   border-radius: 12rpx;
@@ -405,12 +437,12 @@ page {
 }
 
 /* ============================================
-   Skeleton Screen
+   Skeleton Screen (improved pulse effect)
    ============================================ */
 .skeleton {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s infinite;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 37%, #f1f5f9 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
   border-radius: 8rpx;
 }
 
@@ -440,15 +472,117 @@ page {
 
 .skeleton-card {
   background: #ffffff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 28rpx 32rpx;
   margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 24rpx rgba(13, 27, 42, 0.06);
 }
 
 @keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* ============================================
+   Animation Keyframes
+   ============================================ */
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease forwards;
+}
+
+/* Slide up */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(60rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease forwards;
+}
+
+/* Pulse for matching progress */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 0.4; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Checkmark pop */
+@keyframes checkmark-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-checkmark {
+  animation: checkmark-pop 0.4s ease forwards;
+}
+
+/* Spin */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Bounce */
+@keyframes icon-bounce {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+/* ============================================
+   Share Button Styles
+   ============================================ */
+.share-btn-coral {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24rpx 0;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 14rpx;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(249, 115, 22, 0.25);
+}
+
+.share-btn-coral::after {
+  border: none;
+}
+
+.share-btn-coral:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.share-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24rpx 0;
+  background: transparent;
+  color: #f97316;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 14rpx;
+  border: 2rpx solid #f97316;
+}
+
+.share-btn-outline::after {
+  border: none;
+}
+
+.share-btn-outline:active {
+  background: #fff7ed;
 }
 
 /* ============================================
@@ -456,6 +590,28 @@ page {
    ============================================ */
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ============================================
+   Branding Footer (reusable)
+   ============================================ */
+.brand-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0 48rpx;
+}
+
+.brand-footer-text {
+  font-size: 22rpx;
+  color: #94a3b8;
+  line-height: 1.8;
+}
+
+.brand-footer-link {
+  font-size: 22rpx;
+  color: #f97316;
+  font-weight: 500;
 }
 
 /* ============================================

@@ -10,10 +10,10 @@ Page({
     parkList: [],
     recentServices: [],
     quickActions: [
-      { id: 'generate', icon: '📋', title: '为企业生成政策服务建议', desc: '一键分析匹配政策', color: '#0ea5e9' },
-      { id: 'match', icon: '🔍', title: '政策智能匹配', desc: '多维度政策匹配分析', color: '#f97316' },
-      { id: 'report', icon: '📊', title: '服务报告', desc: '生成完整服务报告', color: '#10b981' },
-      { id: 'library', icon: '📚', title: '政策库', desc: '浏览园区政策库', color: '#8b5cf6' }
+      { id: 'company', icon: '🏢', title: '企业录入', desc: '录入新企业信息', bgColor: 'rgba(14, 165, 233, 0.12)' },
+      { id: 'match', icon: '🔗', title: '政策匹配', desc: '智能匹配可申报政策', bgColor: 'rgba(249, 115, 22, 0.12)' },
+      { id: 'order', icon: '📝', title: '服务工单', desc: '查看与管理服务工单', bgColor: 'rgba(16, 185, 129, 0.12)' },
+      { id: 'report', icon: '📊', title: '运营报告', desc: '生成完整服务报告', bgColor: 'rgba(139, 92, 246, 0.12)' }
     ],
     stats: {
       totalCompanies: 0,
@@ -58,7 +58,7 @@ Page({
   onQuickActionTap(e) {
     const action = e.currentTarget.dataset.action;
     switch (action) {
-      case 'generate':
+      case 'company':
         wx.navigateTo({ url: '/pages/company/company' });
         break;
       case 'match':
@@ -67,8 +67,8 @@ Page({
       case 'report':
         wx.navigateTo({ url: '/pages/report/report' });
         break;
-      case 'library':
-        wx.showToast({ title: '政策库功能开发中', icon: 'none' });
+      case 'order':
+        wx.navigateTo({ url: '/pages/park/park' });
         break;
       default:
         break;

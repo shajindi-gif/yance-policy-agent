@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 /* -------------------------------------------
    Navigation Data
@@ -185,9 +186,15 @@ export default function Header() {
         <div className="header-inner">
           {/* Logo */}
           <Link href="/" className="header-logo" onClick={closeAll}>
-            <span className="header-logo-mark">YC</span>
-            <span>YanCe</span>
-            <span className="header-logo-domain">yance.ai</span>
+            <Image
+              src="/logo.png"
+              alt="YanCe Policy Agent"
+              width={40}
+              height={40}
+              className="header-logo-img"
+              priority
+            />
+            <span>YanCe Policy Agent</span>
           </Link>
 
           {/* Desktop Navigation */}

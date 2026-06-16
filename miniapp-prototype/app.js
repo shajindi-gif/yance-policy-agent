@@ -1,10 +1,11 @@
 // app.js
 // YanCe Policy Agent Mini Program
 // Brand: yance.ai
+// Version: 1.0.0
 
 App({
   onLaunch() {
-    console.log('[YanCe] App launched — yance.ai');
+    console.log('[YanCe] App launched v1.0.0 — yance.ai');
 
     // Check for updates
     if (wx.canIUse('getUpdateManager')) {
@@ -121,6 +122,8 @@ App({
 
   globalData: {
     domain: 'yance.ai',
+    version: '1.0.0',
+    apiBase: 'https://yance.ai/api/v1',
     currentPark: {
       id: 'park-001',
       name: '张江人工智能产业园',

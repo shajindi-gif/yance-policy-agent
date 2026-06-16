@@ -10,12 +10,19 @@ YanCe Policy Agent Desktop
 """
 
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, scrolledtext
+from tkinter import ttk, filedialog, messagebox
 from datetime import datetime
 import os
-import json
 import webbrowser
-import threading
+
+# ============================================
+# Optional PIL/Pillow import for logo display
+# ============================================
+try:
+    from PIL import Image, ImageTk
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
 
 
 # ============================================
@@ -24,19 +31,19 @@ import threading
 APP_TITLE = "YanCe Policy Agent Desktop"
 APP_VERSION = "1.0.0"
 APP_BRAND_URL = "https://yance.ai"
-WINDOW_SIZE = "1100x750"
-MIN_SIZE = (900, 600)
+WINDOW_SIZE = "1200x800"
+MIN_SIZE = (960, 640)
 SPLASH_DURATION_MS = 2000
 
-# Color scheme — navy / teal / coral (matching yance.ai website)
+# Color scheme — navy / teal / coral (matching yance.ai brand)
 COLORS = {
-    "bg_dark": "#0d1b2a",
-    "bg_panel": "#112240",
+    "bg_dark": "#0d1b2a",       # navy (main background)
+    "bg_panel": "#1b2d45",      # navy-light (side panels)
     "bg_card": "#1a2f52",
     "bg_input": "#0a1628",
     "accent": "#0ea5e9",        # teal
     "accent_hover": "#38bdf8",
-    "coral": "#f97316",         # coral accent
+    "coral": "#f97316",         # coral (primary CTA)
     "coral_hover": "#fb923c",
     "text_primary": "#e2e8f0",
     "text_secondary": "#7dd3fc",
@@ -105,6 +112,32 @@ NEEDS_OPTIONS = [
 
 
 # ============================================
+# Logo Helper
+# ============================================
+def get_logo_path():
+    """Return the path to logo.png in the same directory as this script."""
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo.png")
+
+
+def load_logo_image(size, fallback_text="Y"):
+    """
+    Attempt to load and resize logo.png via PIL.
+    Returns (photo_image, is_real_logo) tuple.
+    If PIL is unavailable or the file is missing, returns (None, False).
+    """
+    logo_path = get_logo_path()
+    if not HAS_PIL or not os.path.exists(logo_path):
+        return None, False
+    try:
+        img = Image.open(logo_path)
+        img = img.resize(size, Image.LANCZOS)
+        photo = ImageTk.PhotoImage(img)
+        return photo, True
+    except Exception:
+        return None, False
+
+
+# ============================================
 # Splash Screen
 # ============================================
 class SplashScreen(tk.Toplevel):
@@ -116,59 +149,63 @@ class SplashScreen(tk.Toplevel):
         self.overrideredirect(True)
 
         # Centre on screen
-        w, h = 480, 320
+        w, h = 500, 340
         sx = (self.winfo_screenwidth() - w) // 2
         sy = (self.winfo_screenheight() - h) // 2
         self.geometry(f"{w}x{h}+{sx}+{sy}")
+        self.configure(bg=COLORS["bg_dark"])
 
         # Main frame
         frame = tk.Frame(self, bg=COLORS["bg_dark"], width=w, height=h)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        # Logo circle
-        logo_frame = tk.Frame(frame, bg=COLORS["accent"], width=72, height=72)
-        logo_frame.place(relx=0.5, rely=0.30, anchor=tk.CENTER)
-        logo_frame.pack_propagate(False)
-        logo_label = tk.Label(
-            logo_frame, text="Y", font=("Helvetica Neue", 36, "bold"),
-            bg=COLORS["accent"], fg="#ffffff",
-        )
-        logo_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        # Logo image or fallback circle
+        self._logo_photo = None
+        logo_photo, is_real = load_logo_image((72, 72))
+        if is_real and logo_photo is not None:
+            self._logo_photo = logo_photo  # prevent GC
+            logo_label = tk.Label(frame, image=logo_photo, bg=COLORS["bg_dark"])
+            logo_label.place(relx=0.5, rely=0.28, anchor=tk.CENTER)
+        else:
+            logo_frame = tk.Frame(frame, bg=COLORS["accent"], width=72, height=72)
+            logo_frame.place(relx=0.5, rely=0.28, anchor=tk.CENTER)
+            logo_frame.pack_propagate(False)
+            lbl = tk.Label(
+                logo_frame, text="Y", font=("Helvetica Neue", 36, "bold"),
+                bg=COLORS["accent"], fg="#ffffff",
+            )
+            lbl.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         # App title
-        title_label = tk.Label(
+        tk.Label(
             frame, text="YanCe Policy Agent Desktop",
             font=("Helvetica Neue", 20, "bold"),
             bg=COLORS["bg_dark"], fg="#ffffff",
-        )
-        title_label.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+        ).place(relx=0.5, rely=0.52, anchor=tk.CENTER)
 
         # Subtitle
-        sub_label = tk.Label(
+        tk.Label(
             frame, text="园区政策分析助手",
             font=("Helvetica Neue", 13),
             bg=COLORS["bg_dark"], fg=COLORS["text_secondary"],
-        )
-        sub_label.place(relx=0.5, rely=0.65, anchor=tk.CENTER)
+        ).place(relx=0.5, rely=0.63, anchor=tk.CENTER)
 
         # Brand URL
-        url_label = tk.Label(
+        tk.Label(
             frame, text="yance.ai",
-            font=("Helvetica Neue", 12, "bold"),
+            font=("Helvetica Neue", 13, "bold"),
             bg=COLORS["bg_dark"], fg=COLORS["coral"],
-        )
-        url_label.place(relx=0.5, rely=0.76, anchor=tk.CENTER)
+        ).place(relx=0.5, rely=0.74, anchor=tk.CENTER)
 
         # Version
-        ver_label = tk.Label(
+        tk.Label(
             frame, text=f"v{APP_VERSION}",
             font=("Helvetica Neue", 10),
             bg=COLORS["bg_dark"], fg=COLORS["text_muted"],
-        )
-        ver_label.place(relx=0.5, rely=0.86, anchor=tk.CENTER)
+        ).place(relx=0.5, rely=0.84, anchor=tk.CENTER)
 
-        # Loading bar animation
-        self.progress = tk.Frame(frame, bg=COLORS["border"], width=200, height=4)
+        # Loading progress bar
+        self.progress = tk.Frame(frame, bg=COLORS["border"], width=220, height=4)
         self.progress.place(relx=0.5, rely=0.93, anchor=tk.CENTER)
         self.progress.pack_propagate(False)
         self.bar = tk.Frame(self.progress, bg=COLORS["accent"], width=0, height=4)
@@ -177,7 +214,7 @@ class SplashScreen(tk.Toplevel):
 
     def _animate_bar(self, step):
         """Animate the loading bar from left to right."""
-        max_w = 200
+        max_w = 220
         current_w = int(max_w * (step / 20))
         self.bar.place(x=0, y=0, width=current_w, height=4)
         if step < 20:
@@ -197,10 +234,15 @@ class YanCePolicyAgentApp:
         self.root.minsize(*MIN_SIZE)
         self.root.configure(bg=COLORS["bg_dark"])
 
+        # Keep references to prevent garbage collection
+        self._logo_photo = None
+
         # Variables
         self.policy_file_path = tk.StringVar(value="")
-        self.needs_vars = {}  # checkbox variables
-        self.status_text = tk.StringVar(value="就绪 | 欢迎使用 YanCe Policy Agent Desktop — yance.ai")
+        self.needs_vars = {}
+        self.status_text = tk.StringVar(
+            value=f"yance.ai | v{APP_VERSION} | 衍策引擎AI"
+        )
 
         # Build UI
         self._setup_styles()
@@ -285,6 +327,18 @@ class YanCePolicyAgentApp:
             background=[("active", COLORS["accent_hover"]), ("disabled", COLORS["border"])],
         )
         style.configure(
+            "Coral.TButton",
+            background=COLORS["coral"],
+            foreground="#ffffff",
+            font=("Helvetica Neue", 13, "bold"),
+            padding=(16, 10),
+            borderwidth=0,
+        )
+        style.map(
+            "Coral.TButton",
+            background=[("active", COLORS["coral_hover"]), ("disabled", COLORS["border"])],
+        )
+        style.configure(
             "Secondary.TButton",
             background=COLORS["bg_card"],
             foreground=COLORS["text_secondary"],
@@ -297,7 +351,15 @@ class YanCePolicyAgentApp:
             background=[("active", COLORS["border"])],
         )
         style.configure(
-            "Coral.TButton",
+            "Success.TButton",
+            background=COLORS["success"],
+            foreground=COLORS["bg_dark"],
+            font=("Helvetica Neue", 11, "bold"),
+            padding=(12, 6),
+            borderwidth=0,
+        )
+        style.configure(
+            "ExportPDF.TButton",
             background=COLORS["coral"],
             foreground="#ffffff",
             font=("Helvetica Neue", 11, "bold"),
@@ -305,16 +367,8 @@ class YanCePolicyAgentApp:
             borderwidth=0,
         )
         style.map(
-            "Coral.TButton",
+            "ExportPDF.TButton",
             background=[("active", COLORS["coral_hover"])],
-        )
-        style.configure(
-            "Success.TButton",
-            background=COLORS["success"],
-            foreground=COLORS["bg_dark"],
-            font=("Helvetica Neue", 11, "bold"),
-            padding=(12, 6),
-            borderwidth=0,
         )
 
         # Entry
@@ -326,6 +380,12 @@ class YanCePolicyAgentApp:
             borderwidth=1,
             relief="solid",
         )
+        style.map(
+            "Dark.TEntry",
+            bordercolor=[("focus", COLORS["accent"])],
+            lightcolor=[("focus", COLORS["accent"])],
+            darkcolor=[("focus", COLORS["accent"])],
+        )
 
         # Combobox
         style.configure(
@@ -335,6 +395,11 @@ class YanCePolicyAgentApp:
             selectbackground=COLORS["accent"],
             selectforeground="#ffffff",
             borderwidth=1,
+        )
+        style.map(
+            "Dark.TCombobox",
+            bordercolor=[("focus", COLORS["accent"])],
+            fieldbackground=[("readonly", COLORS["bg_input"])],
         )
 
         # Checkbutton
@@ -352,21 +417,21 @@ class YanCePolicyAgentApp:
         # Separator
         style.configure("Dark.TSeparator", background=COLORS["border"])
 
-        # Notebook
-        style.configure("Dark.TNotebook", background=COLORS["bg_dark"])
-        style.configure("Dark.TNotebook.Tab", background=COLORS["bg_panel"], foreground=COLORS["text_secondary"])
-
     # ========================================
     # Menu Bar
     # ========================================
     def _create_menu(self):
         """Create the application menu bar."""
-        menubar = tk.Menu(self.root, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
-                          activebackground=COLORS["accent"], activeforeground="#ffffff")
+        menubar = tk.Menu(
+            self.root, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
+            activebackground=COLORS["accent"], activeforeground="#ffffff",
+        )
 
         # File menu
-        file_menu = tk.Menu(menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
-                            activebackground=COLORS["accent"], activeforeground="#ffffff")
+        file_menu = tk.Menu(
+            menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
+            activebackground=COLORS["accent"], activeforeground="#ffffff",
+        )
         file_menu.add_command(label="新建项目", command=self._on_new_project, accelerator="Cmd+N")
         file_menu.add_command(label="导入政策文件...", command=self._on_import_policy, accelerator="Cmd+O")
         file_menu.add_separator()
@@ -378,8 +443,10 @@ class YanCePolicyAgentApp:
         menubar.add_cascade(label="文件", menu=file_menu)
 
         # Edit menu
-        edit_menu = tk.Menu(menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
-                            activebackground=COLORS["accent"], activeforeground="#ffffff")
+        edit_menu = tk.Menu(
+            menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
+            activebackground=COLORS["accent"], activeforeground="#ffffff",
+        )
         edit_menu.add_command(label="撤销", accelerator="Cmd+Z")
         edit_menu.add_command(label="重做", accelerator="Cmd+Shift+Z")
         edit_menu.add_separator()
@@ -389,10 +456,13 @@ class YanCePolicyAgentApp:
         menubar.add_cascade(label="编辑", menu=edit_menu)
 
         # Help menu
-        help_menu = tk.Menu(menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
-                            activebackground=COLORS["accent"], activeforeground="#ffffff")
+        help_menu = tk.Menu(
+            menubar, tearoff=0, bg=COLORS["bg_panel"], fg=COLORS["text_primary"],
+            activebackground=COLORS["accent"], activeforeground="#ffffff",
+        )
         help_menu.add_command(label="使用说明", command=self._show_help)
         help_menu.add_command(label="打开 yance.ai", command=self._open_website)
+        help_menu.add_command(label="检查更新...", command=self._check_for_updates)
         help_menu.add_separator()
         help_menu.add_command(label="关于 YanCe Policy Agent", command=self._show_about)
         menubar.add_cascade(label="帮助", menu=help_menu)
@@ -403,28 +473,35 @@ class YanCePolicyAgentApp:
     # Main Layout
     # ========================================
     def _create_main_layout(self):
-        """Build the two-panel main layout."""
-        # Top header
+        """Build the two-panel main layout with logo header."""
+        # --- Top Header Bar ---
         header_frame = ttk.Frame(self.root, style="Dark.TFrame")
-        header_frame.pack(fill=tk.X, padx=20, pady=(16, 8))
+        header_frame.pack(fill=tk.X, padx=20, pady=(14, 6))
 
-        # Logo area
-        logo_frame = ttk.Frame(header_frame, style="Dark.TFrame")
-        logo_frame.pack(side=tk.LEFT)
+        # Logo area (left)
+        logo_area = ttk.Frame(header_frame, style="Dark.TFrame")
+        logo_area.pack(side=tk.LEFT)
 
-        logo_label = tk.Label(
-            logo_frame, text="Y", font=("Helvetica Neue", 22, "bold"),
-            bg=COLORS["accent"], fg="#ffffff", width=2, height=1,
-        )
-        logo_label.pack(side=tk.LEFT, padx=(0, 12))
+        # Try loading real logo
+        logo_photo, is_real = load_logo_image((40, 40))
+        if is_real and logo_photo is not None:
+            self._logo_photo = logo_photo  # prevent GC
+            tk.Label(
+                logo_area, image=logo_photo, bg=COLORS["bg_dark"],
+            ).pack(side=tk.LEFT, padx=(0, 12))
+        else:
+            # Fallback: letter badge
+            tk.Label(
+                logo_area, text="Y", font=("Helvetica Neue", 20, "bold"),
+                bg=COLORS["accent"], fg="#ffffff", width=2, height=1,
+            ).pack(side=tk.LEFT, padx=(0, 12))
 
-        title_label = ttk.Label(logo_frame, text="YanCe Policy Agent", style="Header.TLabel")
-        title_label.pack(side=tk.LEFT)
+        ttk.Label(logo_area, text="YanCe Policy Agent", style="Header.TLabel").pack(side=tk.LEFT)
+        ttk.Label(
+            logo_area, text="  v" + APP_VERSION, style="SubHeader.TLabel",
+        ).pack(side=tk.LEFT, padx=(4, 0), pady=(8, 0))
 
-        subtitle_label = ttk.Label(logo_frame, text="  v" + APP_VERSION, style="SubHeader.TLabel")
-        subtitle_label.pack(side=tk.LEFT, padx=(4, 0), pady=(8, 0))
-
-        # Brand URL on the right
+        # Brand URL (right)
         brand_label = tk.Label(
             header_frame, text="yance.ai",
             font=("Helvetica Neue", 12, "bold"),
@@ -435,32 +512,32 @@ class YanCePolicyAgentApp:
         brand_label.bind("<Button-1>", lambda e: self._open_website())
 
         # Separator
-        sep = ttk.Separator(self.root, orient=tk.HORIZONTAL, style="Dark.TSeparator")
-        sep.pack(fill=tk.X, padx=20, pady=(4, 8))
+        ttk.Separator(self.root, orient=tk.HORIZONTAL, style="Dark.TSeparator").pack(
+            fill=tk.X, padx=20, pady=(2, 6),
+        )
 
-        # PanedWindow for left/right panels
+        # --- Paned Window ---
         paned = tk.PanedWindow(
             self.root, orient=tk.HORIZONTAL, bg=COLORS["bg_dark"],
             sashwidth=4, sashrelief=tk.FLAT, sashpad=2,
         )
-        paned.pack(fill=tk.BOTH, expand=True, padx=16, pady=8)
+        paned.pack(fill=tk.BOTH, expand=True, padx=16, pady=6)
 
         # Left panel
-        left_frame = ttk.Frame(paned, style="Panel.TFrame", width=400)
-        paned.add(left_frame, minsize=340, width=400)
+        left_frame = ttk.Frame(paned, style="Panel.TFrame", width=420)
+        paned.add(left_frame, minsize=340, width=420)
         self._build_left_panel(left_frame)
 
         # Right panel
         right_frame = ttk.Frame(paned, style="Panel.TFrame")
-        paned.add(right_frame, minsize=400)
+        paned.add(right_frame, minsize=420)
         self._build_right_panel(right_frame)
 
     # ========================================
-    # Left Panel - Input Form
+    # Left Panel — Input Form
     # ========================================
     def _build_left_panel(self, parent):
-        """Build the left panel with the park/company input form."""
-        # Scrollable container
+        """Build the left panel with the enterprise/park input form."""
         canvas = tk.Canvas(parent, bg=COLORS["bg_panel"], highlightthickness=0)
         scrollbar = ttk.Scrollbar(parent, orient=tk.VERTICAL, command=canvas.yview)
         scroll_frame = ttk.Frame(canvas, style="Panel.TFrame")
@@ -476,63 +553,63 @@ class YanCePolicyAgentApp:
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(8, 0), pady=4)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y, pady=4)
 
-        # Bind mousewheel
+        # Mousewheel scrolling
         def _on_mousewheel(event):
             canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
         canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
         # --- Panel Title ---
         ttk.Label(scroll_frame, text="企业与园区信息", style="PanelTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(12, 4)
+            anchor=tk.W, padx=16, pady=(12, 4),
         )
-        ttk.Label(scroll_frame, text="请填写基本信息以生成政策服务报告", style="Muted.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(0, 12)
-        )
+        ttk.Label(
+            scroll_frame, text="请填写基本信息以生成政策服务报告", style="Muted.TLabel",
+        ).pack(anchor=tk.W, padx=16, pady=(0, 12))
 
         # --- Park Name ---
         ttk.Label(scroll_frame, text="园区名称", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 4)
+            anchor=tk.W, padx=16, pady=(8, 4),
         )
         self.park_name_var = tk.StringVar(value="张江人工智能产业园")
-        park_entry = ttk.Entry(scroll_frame, textvariable=self.park_name_var, style="Dark.TEntry", width=40)
-        park_entry.pack(fill=tk.X, padx=16, pady=(0, 8), ipady=4)
+        ttk.Entry(
+            scroll_frame, textvariable=self.park_name_var, style="Dark.TEntry", width=40,
+        ).pack(fill=tk.X, padx=16, pady=(0, 8), ipady=4)
 
         # --- Company Name ---
         ttk.Label(scroll_frame, text="企业名称", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 4)
+            anchor=tk.W, padx=16, pady=(8, 4),
         )
         self.company_name_var = tk.StringVar(value="")
-        company_entry = ttk.Entry(scroll_frame, textvariable=self.company_name_var, style="Dark.TEntry", width=40)
-        company_entry.pack(fill=tk.X, padx=16, pady=(0, 8), ipady=4)
+        ttk.Entry(
+            scroll_frame, textvariable=self.company_name_var, style="Dark.TEntry", width=40,
+        ).pack(fill=tk.X, padx=16, pady=(0, 8), ipady=4)
 
         # --- Region Dropdown ---
         ttk.Label(scroll_frame, text="所在区域", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 4)
+            anchor=tk.W, padx=16, pady=(8, 4),
         )
         self.region_var = tk.StringVar(value=REGIONS[0])
-        region_combo = ttk.Combobox(
+        ttk.Combobox(
             scroll_frame, textvariable=self.region_var, values=REGIONS,
             state="readonly", style="Dark.TCombobox", width=37,
-        )
-        region_combo.pack(fill=tk.X, padx=16, pady=(0, 8))
+        ).pack(fill=tk.X, padx=16, pady=(0, 8))
 
         # --- Industry Dropdown ---
         ttk.Label(scroll_frame, text="所属行业", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 4)
+            anchor=tk.W, padx=16, pady=(8, 4),
         )
         self.industry_var = tk.StringVar(value=INDUSTRIES[0])
-        industry_combo = ttk.Combobox(
+        ttk.Combobox(
             scroll_frame, textvariable=self.industry_var, values=INDUSTRIES,
             state="readonly", style="Dark.TCombobox", width=37,
-        )
-        industry_combo.pack(fill=tk.X, padx=16, pady=(0, 8))
+        ).pack(fill=tk.X, padx=16, pady=(0, 8))
 
-        # --- Current Needs Checkboxes ---
+        # --- Needs Checkboxes ---
         ttk.Separator(scroll_frame, orient=tk.HORIZONTAL, style="Dark.TSeparator").pack(
-            fill=tk.X, padx=16, pady=(16, 8)
+            fill=tk.X, padx=16, pady=(16, 8),
         )
         ttk.Label(scroll_frame, text="当前需求（可多选）", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 8)
+            anchor=tk.W, padx=16, pady=(8, 8),
         )
 
         needs_frame = ttk.Frame(scroll_frame, style="Panel.TFrame")
@@ -542,11 +619,9 @@ class YanCePolicyAgentApp:
             var = tk.BooleanVar(value=False)
             self.needs_vars[need] = var
             cb = ttk.Checkbutton(
-                needs_frame, text=need, variable=var,
-                style="Panel.TCheckbutton",
+                needs_frame, text=need, variable=var, style="Panel.TCheckbutton",
             )
-            row = i // 2
-            col = i % 2
+            row, col = i // 2, i % 2
             cb.grid(row=row, column=col, sticky=tk.W, padx=(0, 16), pady=2)
 
         needs_frame.columnconfigure(0, weight=1)
@@ -554,37 +629,34 @@ class YanCePolicyAgentApp:
 
         # --- Policy File Import ---
         ttk.Separator(scroll_frame, orient=tk.HORIZONTAL, style="Dark.TSeparator").pack(
-            fill=tk.X, padx=16, pady=(16, 8)
+            fill=tk.X, padx=16, pady=(16, 8),
         )
         ttk.Label(scroll_frame, text="政策文件导入（可选）", style="SectionTitle.TLabel").pack(
-            anchor=tk.W, padx=16, pady=(8, 8)
+            anchor=tk.W, padx=16, pady=(8, 8),
         )
 
         file_frame = ttk.Frame(scroll_frame, style="Panel.TFrame")
         file_frame.pack(fill=tk.X, padx=16, pady=(0, 8))
 
-        file_entry = ttk.Entry(file_frame, textvariable=self.policy_file_path, style="Dark.TEntry", width=28)
-        file_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=3)
+        ttk.Entry(
+            file_frame, textvariable=self.policy_file_path, style="Dark.TEntry", width=28,
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=3)
+        ttk.Button(
+            file_frame, text="浏览...", style="Secondary.TButton", command=self._on_browse_file,
+        ).pack(side=tk.RIGHT, padx=(8, 0))
 
-        browse_btn = ttk.Button(
-            file_frame, text="浏览...", style="Secondary.TButton",
-            command=self._on_browse_file,
-        )
-        browse_btn.pack(side=tk.RIGHT, padx=(8, 0))
-
-        # --- Generate Button ---
+        # --- Generate Report Button (coral CTA) ---
         ttk.Separator(scroll_frame, orient=tk.HORIZONTAL, style="Dark.TSeparator").pack(
-            fill=tk.X, padx=16, pady=(16, 8)
+            fill=tk.X, padx=16, pady=(16, 8),
         )
 
-        gen_btn = ttk.Button(
-            scroll_frame, text="生成报告", style="Primary.TButton",
+        ttk.Button(
+            scroll_frame, text="生成报告", style="Coral.TButton",
             command=self._on_generate_report,
-        )
-        gen_btn.pack(fill=tk.X, padx=16, pady=(8, 20))
+        ).pack(fill=tk.X, padx=16, pady=(8, 20))
 
     # ========================================
-    # Right Panel - Report Preview
+    # Right Panel — Report Preview
     # ========================================
     def _build_right_panel(self, parent):
         """Build the right panel with the report preview area."""
@@ -598,21 +670,19 @@ class YanCePolicyAgentApp:
         btn_frame = ttk.Frame(header_frame, style="Panel.TFrame")
         btn_frame.pack(side=tk.RIGHT)
 
-        pdf_btn = ttk.Button(
-            btn_frame, text="导出 PDF", style="Coral.TButton",
+        ttk.Button(
+            btn_frame, text="导出 PDF", style="ExportPDF.TButton",
             command=self._on_export_pdf,
-        )
-        pdf_btn.pack(side=tk.LEFT, padx=(0, 8))
+        ).pack(side=tk.LEFT, padx=(0, 8))
 
-        save_btn = ttk.Button(
+        ttk.Button(
             btn_frame, text="保存报告", style="Success.TButton",
             command=self._on_save_report,
-        )
-        save_btn.pack(side=tk.LEFT)
+        ).pack(side=tk.LEFT)
 
         # Separator
         ttk.Separator(parent, orient=tk.HORIZONTAL, style="Dark.TSeparator").pack(
-            fill=tk.X, padx=16, pady=(0, 8)
+            fill=tk.X, padx=16, pady=(0, 8),
         )
 
         # Report text area
@@ -637,13 +707,24 @@ class YanCePolicyAgentApp:
         self.report_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(16, 0), pady=(0, 16))
         report_scrollbar.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 8), pady=(0, 16))
 
-        # Initial placeholder text
+        # Configure heading tag style for report branding
+        self.report_text.tag_configure(
+            "brand_header",
+            foreground=COLORS["coral"],
+            font=("Menlo", 11, "bold"),
+        )
+        self.report_text.tag_configure(
+            "section_heading",
+            foreground=COLORS["accent"],
+            font=("Menlo", 13, "bold"),
+        )
+
         self._set_placeholder_text()
 
     def _set_placeholder_text(self):
         """Set placeholder text in the report area."""
         self.report_text.delete("1.0", tk.END)
-        self.report_text.insert(tk.END, "报告预览区域\n\n")
+        self.report_text.insert(tk.END, "报告预览区域\n\n", "section_heading")
         self.report_text.insert(tk.END, "请在左侧面板填写企业和园区信息，\n")
         self.report_text.insert(tk.END, "然后点击「生成报告」按钮。\n\n")
         self.report_text.insert(tk.END, "生成的报告将包含以下内容：\n")
@@ -654,7 +735,7 @@ class YanCePolicyAgentApp:
             "申报条件符合度评估",
             "所需材料清单",
             "申报时间窗口",
-            "预估补贴金额",
+            "预估政策支持",
             "风险提示",
             "园区服务建议",
             "后续行动建议",
@@ -666,7 +747,7 @@ class YanCePolicyAgentApp:
         for i, section in enumerate(sections, 1):
             self.report_text.insert(tk.END, f"  {i:2d}. {section}\n")
         self.report_text.insert(tk.END, "\n\n提示：可导入本地政策文件（.txt / .pdf）进行针对性分析。")
-        self.report_text.insert(tk.END, "\n报告头部将包含 yance.ai 品牌标识。")
+        self.report_text.insert(tk.END, "\n报告头部将包含 yance.ai 品牌标识。", "brand_header")
 
     # ========================================
     # Status Bar
@@ -677,35 +758,33 @@ class YanCePolicyAgentApp:
         status_frame.pack(fill=tk.X, side=tk.BOTTOM)
         status_frame.pack_propagate(False)
 
-        status_label = tk.Label(
+        tk.Label(
             status_frame, textvariable=self.status_text,
             font=("Helvetica Neue", 10),
             bg=COLORS["bg_panel"], fg=COLORS["text_muted"],
             anchor=tk.W, padx=12,
-        )
-        status_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        ).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-        brand_label = tk.Label(
-            status_frame, text="yance.ai",
+        tk.Label(
+            status_frame,
+            text=f"yance.ai | v{APP_VERSION} | 衍策引擎AI",
             font=("Helvetica Neue", 10, "bold"),
             bg=COLORS["bg_panel"], fg=COLORS["coral"],
             anchor=tk.E, padx=12,
-        )
-        brand_label.pack(side=tk.RIGHT)
+        ).pack(side=tk.RIGHT)
 
     # ========================================
     # Event Handlers
     # ========================================
     def _on_browse_file(self):
         """Open file dialog to select a policy file."""
-        filetypes = [
-            ("政策文件", "*.txt *.pdf *.docx *.md"),
-            ("文本文件", "*.txt *.md"),
-            ("所有文件", "*.*"),
-        ]
         filepath = filedialog.askopenfilename(
             title="选择政策文件",
-            filetypes=filetypes,
+            filetypes=[
+                ("政策文件", "*.txt *.pdf *.docx *.md"),
+                ("文本文件", "*.txt *.md"),
+                ("所有文件", "*.*"),
+            ],
         )
         if filepath:
             self.policy_file_path.set(filepath)
@@ -713,7 +792,6 @@ class YanCePolicyAgentApp:
 
     def _on_generate_report(self):
         """Generate a policy service report."""
-        # Validate inputs
         park_name = self.park_name_var.get().strip()
         company_name = self.company_name_var.get().strip()
         region = self.region_var.get()
@@ -732,13 +810,11 @@ class YanCePolicyAgentApp:
             messagebox.showwarning("提示", "请选择所属行业")
             return
 
-        # Collect selected needs
         selected_needs = [need for need, var in self.needs_vars.items() if var.get()]
 
         self.status_text.set("正在生成报告...")
         self.root.update()
 
-        # Generate report
         report = self._generate_sample_report(
             park_name=park_name,
             company_name=company_name,
@@ -748,12 +824,22 @@ class YanCePolicyAgentApp:
             policy_file=self.policy_file_path.get(),
         )
 
-        # Display report
+        # Display report with styled branding header
         self.report_text.delete("1.0", tk.END)
-        self.report_text.insert(tk.END, report)
+        lines = report.split("\n")
+        for i, line in enumerate(lines):
+            if i < 5 and ("yance.ai" in line or "YanCe Policy Agent" in line):
+                self.report_text.insert(tk.END, line + "\n", "brand_header")
+            elif line.startswith("## "):
+                self.report_text.insert(tk.END, line + "\n", "section_heading")
+            else:
+                self.report_text.insert(tk.END, line + "\n")
         self.report_text.see("1.0")
 
-        self.status_text.set(f"报告生成完成 | {company_name} | {datetime.now().strftime('%Y-%m-%d %H:%M')} | yance.ai")
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+        self.status_text.set(
+            f"报告生成完成 | {company_name} | {ts} | yance.ai"
+        )
         messagebox.showinfo("完成", f"已为 {company_name} 生成政策服务报告")
 
     def _on_save_report(self):
@@ -802,9 +888,7 @@ class YanCePolicyAgentApp:
             title="导出 PDF 报告",
             defaultextension=".pdf",
             initialfile=default_name,
-            filetypes=[
-                ("PDF 文件", "*.pdf"),
-            ],
+            filetypes=[("PDF 文件", "*.pdf")],
         )
         if not filepath:
             return
@@ -815,7 +899,7 @@ class YanCePolicyAgentApp:
             from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
             from reportlab.lib.units import cm
             from reportlab.lib.colors import HexColor
-            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
             from reportlab.pdfbase import pdfmetrics
             from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 
@@ -829,8 +913,12 @@ class YanCePolicyAgentApp:
                 topMargin=2 * cm, bottomMargin=2 * cm,
             )
 
-            # Styles
             styles = getSampleStyleSheet()
+            brand_style = ParagraphStyle(
+                "Brand", parent=styles["Normal"],
+                fontName=font_name, fontSize=10, leading=14,
+                textColor=HexColor("#f97316"),
+            )
             title_style = ParagraphStyle(
                 "CNTitle", parent=styles["Title"],
                 fontName=font_name, fontSize=20, leading=26,
@@ -846,18 +934,12 @@ class YanCePolicyAgentApp:
                 fontName=font_name, fontSize=10, leading=16,
                 textColor=HexColor("#1e293b"),
             )
-            brand_style = ParagraphStyle(
-                "Brand", parent=styles["Normal"],
-                fontName=font_name, fontSize=9, leading=12,
-                textColor=HexColor("#f97316"),
-            )
 
             story = []
-            # Header branding
-            story.append(Paragraph("yance.ai | YanCe Policy Agent", brand_style))
+            # PDF header branding
+            story.append(Paragraph("YanCe Policy Agent | yance.ai", brand_style))
             story.append(Spacer(1, 0.5 * cm))
 
-            # Parse markdown-like content
             for line in content.split("\n"):
                 line = line.strip()
                 if not line:
@@ -869,12 +951,11 @@ class YanCePolicyAgentApp:
                     story.append(Paragraph(line[3:], heading_style))
                 elif line.startswith("### "):
                     story.append(Paragraph(f"<b>{line[4:]}</b>", body_style))
-                elif line.startswith("---"):
+                elif line.startswith("---") or line.startswith("━"):
                     story.append(Spacer(1, 0.3 * cm))
-                elif line.startswith("| ") or line.startswith("- ") or line.startswith("* "):
-                    story.append(Paragraph(line, body_style))
                 else:
-                    story.append(Paragraph(line, body_style))
+                    safe_line = line.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    story.append(Paragraph(safe_line, body_style))
 
             doc.build(story)
             self.status_text.set(f"PDF 已导出：{os.path.basename(filepath)}")
@@ -903,7 +984,7 @@ class YanCePolicyAgentApp:
         for var in self.needs_vars.values():
             var.set(False)
         self._set_placeholder_text()
-        self.status_text.set("已重置 | 新建项目")
+        self.status_text.set(f"yance.ai | v{APP_VERSION} | 衍策引擎AI | 已重置")
 
     def _on_import_policy(self):
         """Import a policy file."""
@@ -912,6 +993,15 @@ class YanCePolicyAgentApp:
     def _open_website(self):
         """Open yance.ai in the default browser."""
         webbrowser.open(APP_BRAND_URL)
+
+    def _check_for_updates(self):
+        """Check for updates (placeholder)."""
+        messagebox.showinfo(
+            "检查更新",
+            f"当前版本：v{APP_VERSION}\n\n"
+            f"您正在使用最新版本。\n\n"
+            f"如需了解最新动态，请访问：\nyance.ai",
+        )
 
     def _show_help(self):
         """Show help dialog."""
@@ -952,10 +1042,8 @@ class YanCePolicyAgentApp:
         now = datetime.now()
         report_id = f"RPT-{now.strftime('%Y%m%d%H%M%S')}"
 
-        # Build needs text
         needs_text = "、".join(needs) if needs else "暂未选择"
 
-        # Policy file reference
         policy_ref = ""
         if policy_file:
             policy_ref = f"\n引用政策文件：{os.path.basename(policy_file)}\n"
@@ -963,14 +1051,13 @@ class YanCePolicyAgentApp:
         report = f"""# 政策服务报告
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  yance.ai | YanCe Policy Agent Desktop v{APP_VERSION}
+  YanCe Policy Agent | yance.ai
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 报告编号：{report_id}
 生成时间：{now.strftime('%Y年%m月%d日 %H:%M:%S')}
 生成工具：YanCe Policy Agent Desktop v{APP_VERSION} (yance.ai)
 {policy_ref}
-
 ---
 
 ## 一、企业基本信息概览
@@ -1219,12 +1306,15 @@ def main():
 
     # macOS-specific settings
     try:
-        root.tk.call("::tk::unsupported::MacWindowStyle", "style", root._w, "document", "closeBox collapseBox")
+        root.tk.call(
+            "::tk::unsupported::MacWindowStyle", "style", root._w,
+            "document", "closeBox collapseBox",
+        )
     except tk.TclError:
         pass
 
     # Set app icon (if available)
-    icon_path = os.path.join(os.path.dirname(__file__), "icon.icns")
+    icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.icns")
     if os.path.exists(icon_path):
         try:
             root.iconbitmap(icon_path)
@@ -1238,7 +1328,7 @@ def main():
     def _launch_main():
         splash.destroy()
         root.deiconify()
-        app = YanCePolicyAgentApp(root)
+        YanCePolicyAgentApp(root)
 
     root.after(SPLASH_DURATION_MS, _launch_main)
     root.mainloop()

@@ -753,6 +753,140 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== MULTI-PLATFORM SECTION ===== */}
+      <section className="section platforms-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">多端覆盖</span>
+            <h2 className="section-title">随时随地使用 Policy Agent</h2>
+            <p className="section-subtitle">
+              浏览器、桌面端、移动端 — 三大平台无缝衔接，让政策服务触手可及。
+            </p>
+          </div>
+
+          <div className="platforms-grid">
+            {/* Chrome Extension */}
+            <div className="platform-card">
+              <div className="platform-icon platform-icon-chrome">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <circle cx="24" cy="24" r="22" stroke="#0ea5e9" strokeWidth="2" fill="rgba(14,165,233,0.08)" />
+                  <circle cx="24" cy="24" r="8" fill="#0ea5e9" />
+                  <path d="M24 16 L38 16 A16 16 0 0 1 31 37.8" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+                  <path d="M31 37.8 L24 24 L10.2 31" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+                  <path d="M10.2 31 L24 24 L17 10.5" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+                </svg>
+              </div>
+              <h3 className="platform-card-title">Chrome 浏览器插件</h3>
+              <p className="platform-card-desc">
+                在任何政策网页上一键分析，自动提取政策要点、生成企业服务建议
+              </p>
+              <ul className="platform-features">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  结构化政策提取（6字段）
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  ParkOps 剪贴板同步
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Dashboard 快速入口
+                </li>
+              </ul>
+              <Link href="/demo" className="btn btn-outline platform-card-btn">
+                安装插件
+              </Link>
+            </div>
+
+            {/* Mac Desktop App */}
+            <div className="platform-card">
+              <div className="platform-icon platform-icon-desktop">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <rect x="6" y="8" width="36" height="24" rx="3" stroke="#f97316" strokeWidth="2" fill="rgba(249,115,22,0.08)" />
+                  <rect x="10" y="12" width="28" height="16" rx="1" fill="rgba(249,115,22,0.15)" />
+                  <path d="M18 36 L30 36" stroke="#f97316" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M24 32 L24 36" stroke="#f97316" strokeWidth="2" />
+                  <path d="M16 40 L32 40" stroke="#f97316" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <h3 className="platform-card-title">Mac 桌面端应用</h3>
+              <p className="platform-card-desc">
+                离线可用的桌面端工作台，支持批量企业录入和政策文件导入
+              </p>
+              <ul className="platform-features">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  启动画面、navy/teal/coral 主题
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  PDF 导出
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Open yance.ai 菜单
+                </li>
+              </ul>
+              <Link href="/demo" className="btn btn-outline platform-card-btn">
+                下载 Mac 版
+              </Link>
+            </div>
+
+            {/* WeChat Mini Program */}
+            <div className="platform-card">
+              <div className="platform-icon platform-icon-wechat">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <rect x="14" y="4" width="20" height="40" rx="4" stroke="#16a34a" strokeWidth="2" fill="rgba(22,163,74,0.08)" />
+                  <rect x="17" y="10" width="14" height="24" rx="1" fill="rgba(22,163,74,0.12)" />
+                  <circle cx="24" cy="40" r="2" fill="#16a34a" />
+                  <path d="M20 6 L28 6" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+              <h3 className="platform-card-title">微信小程序</h3>
+              <p className="platform-card-desc">
+                园区工作人员的移动端助手，随时随地录入企业、匹配政策、查看报告
+              </p>
+              <ul className="platform-features">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  骨架屏加载
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  分步匹配动画
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8.5L6.5 12L13 4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  分享报告、yance.ai 品牌贯穿
+                </li>
+              </ul>
+              <Link href="/demo" className="btn btn-outline platform-card-btn">
+                扫码体验
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== PRICING SECTION ===== */}
       <section className="section section-alt">
         <div className="container">

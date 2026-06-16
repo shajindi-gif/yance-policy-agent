@@ -6,11 +6,10 @@
   <view class="hero-header">
     <view class="hero-bg"></view>
     <view class="hero-content">
-      <view class="hero-logo">
-        <text class="hero-logo-text">Y</text>
-      </view>
+      <!-- Logo Image -->
+      <image class="hero-logo-img" src="/assets/logo.png" mode="aspectFit" />
       <view class="hero-info">
-        <text class="hero-title">YanCe Policy Agent</text>
+        <text class="hero-title">衍策园区政策助手</text>
         <text class="hero-subtitle">yance.ai | 智能政策分析 · 精准企业服务</text>
       </view>
     </view>
@@ -43,36 +42,26 @@
     </view>
   </view>
 
-  <!-- Quick Actions — improved card design -->
+  <!-- Quick Actions — 2x2 Grid -->
   <view class="section">
     <view class="section-header">
       <text class="section-title">快捷操作</text>
     </view>
-    <view class="quick-actions">
+    <view class="action-grid">
       <view
-        class="action-card-v2"
+        class="action-grid-card"
         wx:for="{{quickActions}}"
         wx:key="id"
         data-action="{{item.id}}"
         bindtap="onQuickActionTap"
       >
-        <view class="action-icon-wrap" style="background: {{item.color}}20;">
-          <text class="action-icon">{{item.icon}}</text>
+        <view class="action-grid-icon-wrap" style="background: {{item.bgColor}};">
+          <text class="action-grid-icon">{{item.icon}}</text>
         </view>
-        <view class="action-text-wrap">
-          <text class="action-title">{{item.title}}</text>
-          <text class="action-desc">{{item.desc}}</text>
-        </view>
-        <text class="action-arrow">›</text>
+        <text class="action-grid-title">{{item.title}}</text>
+        <text class="action-grid-desc">{{item.desc}}</text>
       </view>
     </view>
-  </view>
-
-  <!-- Primary CTA Button -->
-  <view class="cta-section">
-    <button class="btn btn-primary btn-block btn-lg" bindtap="onQuickActionTap" data-action="generate">
-      为企业生成政策服务建议
-    </button>
   </view>
 
   <!-- Recent Services -->
@@ -110,6 +99,12 @@
       <text class="empty-state-icon">📭</text>
       <text class="empty-state-text">暂无服务记录\n点击上方按钮开始为企业服务</text>
     </view>
+  </view>
+
+  <!-- Powered By Footer -->
+  <view class="powered-by">
+    <text class="powered-text">Powered by</text>
+    <text class="powered-brand">yance.ai</text>
   </view>
 
   <!-- Park Picker Modal -->

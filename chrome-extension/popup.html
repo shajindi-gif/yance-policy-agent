@@ -11,10 +11,10 @@
     <!-- Header -->
     <header class="header">
       <div class="logo-area">
-        <div class="logo-icon">Y</div>
+        <img src="icons/icon48.png" alt="YanCe" class="logo-img" width="32" height="32">
         <div class="logo-text">
           <h1>YanCe Policy Agent</h1>
-          <span class="subtitle">yance.ai | 园区政策分析助手</span>
+          <span class="subtitle">yance.ai</span>
         </div>
       </div>
     </header>
@@ -29,14 +29,14 @@
           <line x1="16" y1="17" x2="8" y2="17"/>
           <polyline points="10 9 9 9 8 9"/>
         </svg>
-        分析当前政策页面
+        分析当前页面政策
       </button>
       <button id="btn-service-note" class="btn btn-secondary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
           <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
         </svg>
-        生成园区服务备注
+        生成园区服务工单
       </button>
     </section>
 
@@ -48,6 +48,7 @@
 
     <!-- Results Area -->
     <section id="results" class="results hidden">
+
       <!-- Policy Name -->
       <div class="result-card">
         <h3 class="card-title">
@@ -56,34 +57,18 @@
         <p id="policy-name" class="card-content card-content-bold"></p>
       </div>
 
-      <!-- Policy Summary -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#128203;</span> 政策摘要
-        </h3>
-        <p id="policy-summary" class="card-content"></p>
-      </div>
-
       <!-- Issuing Authority -->
       <div class="result-card">
         <h3 class="card-title">
-          <span class="card-icon">&#127963;</span> 发文机关
+          <span class="card-icon">&#127963;</span> 发文机构
         </h3>
         <p id="issuing-authority" class="card-content"></p>
-      </div>
-
-      <!-- Applicable Region -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#127961;</span> 适用区域
-        </h3>
-        <p id="applicable-region" class="card-content"></p>
       </div>
 
       <!-- Target Industry -->
       <div class="result-card">
         <h3 class="card-title">
-          <span class="card-icon">&#127981;</span> 目标产业
+          <span class="card-icon">&#127981;</span> 适用行业
         </h3>
         <div id="target-industry" class="tag-list"></div>
       </div>
@@ -91,7 +76,7 @@
       <!-- Subsidy Amount -->
       <div class="result-card result-card-highlight">
         <h3 class="card-title">
-          <span class="card-icon">&#128176;</span> 补贴金额
+          <span class="card-icon">&#128176;</span> 补贴金额/范围
         </h3>
         <p id="subsidy-amount" class="card-content card-content-highlight"></p>
       </div>
@@ -99,71 +84,17 @@
       <!-- Application Deadline -->
       <div class="result-card">
         <h3 class="card-title">
-          <span class="card-icon">&#128197;</span> 申报截止日期
+          <span class="card-icon">&#128197;</span> 申报期限
         </h3>
         <p id="application-deadline" class="card-content"></p>
-      </div>
-
-      <!-- Applicable Enterprise Types -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#127970;</span> 适用企业类型
-        </h3>
-        <div id="enterprise-types" class="tag-list"></div>
-      </div>
-
-      <!-- Application Conditions -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#9989;</span> 申报条件
-        </h3>
-        <ul id="application-conditions" class="card-list"></ul>
       </div>
 
       <!-- Material Requirements -->
       <div class="result-card">
         <h3 class="card-title">
-          <span class="card-icon">&#128196;</span> 申报材料要求
+          <span class="card-icon">&#128196;</span> 材料要求
         </h3>
         <ul id="material-list" class="card-list"></ul>
-      </div>
-
-      <!-- Risk Tips -->
-      <div class="result-card result-card-warning">
-        <h3 class="card-title">
-          <span class="card-icon">&#9888;&#65039;</span> 风险提示
-        </h3>
-        <ul id="risk-tips" class="card-list"></ul>
-      </div>
-
-      <!-- Service Suggestions -->
-      <div class="result-card result-card-highlight">
-        <h3 class="card-title">
-          <span class="card-icon">&#128161;</span> 企业服务建议
-        </h3>
-        <div id="service-suggestions" class="card-content"></div>
-      </div>
-
-      <!-- Add to Policy Library -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#128218;</span> 加入政策库
-        </h3>
-        <div class="library-action">
-          <label class="toggle-label">
-            <input type="checkbox" id="add-to-library" class="toggle-input">
-            <span class="toggle-switch"></span>
-            将此政策加入园区政策库
-          </label>
-        </div>
-      </div>
-
-      <!-- Next Action Steps -->
-      <div class="result-card">
-        <h3 class="card-title">
-          <span class="card-icon">&#128640;</span> 下一步行动
-        </h3>
-        <ol id="next-steps" class="card-list"></ol>
       </div>
 
       <!-- Action Buttons Row -->
@@ -186,12 +117,16 @@
       </div>
     </section>
 
-    <!-- Footer / Disclaimer -->
-    <footer class="footer">
+    <!-- Disclaimer -->
+    <div class="disclaimer-box">
       <p class="disclaimer">
-        &#9432; 本工具生成的分析内容仅供参考，具体以政策原文为准。请结合实际情况进行核实确认。
+        &#9432; 本插件为辅助工具，政策建议需经人工复核
       </p>
-      <p class="version">v1.0.0 | yance.ai | YanCe Policy Agent</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="version">v1.0.0 | yance.ai</p>
     </footer>
   </div>
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 /* -------------------------------------------
    Footer Data
@@ -74,7 +75,13 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="footer-brand">
             <Link href="/" className="footer-brand-logo">
-              <span className="footer-brand-mark">YC</span>
+              <Image
+                src="/logo.png"
+                alt="YanCe Policy Agent"
+                width={48}
+                height={48}
+                className="footer-brand-logo-img"
+              />
               <span className="footer-brand-name">YanCe Policy Agent</span>
             </Link>
             <p className="footer-brand-desc">
