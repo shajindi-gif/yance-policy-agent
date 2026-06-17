@@ -243,10 +243,18 @@ function evaluateMatch(company, policy) {
     reasons.push('符合中小企业认定标准');
   }
 
-  // Material gap analysis
+  // Material gap analysis (skip items already flagged in scoring dimensions)
+  const flaggedKeys = new Set();
+  if (policy.require_ip && !hasIp) flaggedKeys.add('has_ip');
+  if (policy.require_high_tech && !hasHighTech) flaggedKeys.add('has_high_tech_cert');
+  if (policy.require_sme && !isSme) flaggedKeys.add('is_sme');
+
   for (const material of (policy.required_materials || [])) {
     const key = MATERIAL_KEY_MAP[material];
-    if (key && !company[key]) {
+    if (key && flaggedKeys.has(key)) {
+      // Already flagged as a gap in the scoring dimension above — skip to avoid double-counting
+      continue;
+    } else if (key && !company[key]) {
       gaps.push(`缺少材料: ${material}`);
     } else if (!key) {
       humanReview.push(`需人工确认: ${material}`);
@@ -259,7 +267,7 @@ function evaluateMatch(company, policy) {
   }
 
   // Recommendation
-  const recommendation = makeRecommendation(score, gaps, risks);
+  const recommendation = makeRecommendation(score, gaps);
 
   return {
     policy,

@@ -267,7 +267,7 @@ function evaluateMatch(company, policy) {
   }
 
   // Recommendation
-  const recommendation = makeRecommendation(score, gaps);
+  const recommendation = makeRecommendation(score, gaps, risks);
 
   return {
     policy,

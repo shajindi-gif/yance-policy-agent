@@ -1,0 +1,27 @@
+{
+  "name": "yance-policy-agent",
+  "version": "2.0.0",
+  "description": "YanCe Policy Agent - MCP智能体引擎，8维加权政策匹配，可接入WorkBuddy/CodeBuddy等AI Agent平台",
+  "type": "module",
+  "main": "src/policy-engine.js",
+  "bin": {
+    "yance-agent": "./src/mcp-server.js"
+  },
+  "scripts": {
+    "mcp": "node src/mcp-server.js",
+    "api": "node src/api-server.js",
+    "start": "node src/api-server.js",
+    "test": "node test/run.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "policy-matching",
+    "yance",
+    "agent"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  }
+}

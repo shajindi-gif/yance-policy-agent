@@ -4,9 +4,17 @@
  * Brand: yance.ai
  */
 
-// Safari uses browser.* namespace; normalize to chrome.* for code reuse
+// Safari Web Extensions use browser.* namespace (Promise-based).
+// Normalize to chrome.* for code reuse with Chrome extension.
+// Map each API individually for robustness.
 if (typeof browser !== 'undefined' && typeof chrome === 'undefined') {
-  window.chrome = browser;
+  window.chrome = {
+    runtime: browser.runtime,
+    storage: browser.storage,
+    tabs: browser.tabs,
+    scripting: browser.scripting,
+    action: browser.action,
+  };
 }
 
 

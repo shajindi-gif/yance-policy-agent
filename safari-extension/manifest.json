@@ -4,11 +4,6 @@
   "version": "2.0.0",
   "description": "yance.ai 园区政策分析助手 - 8维匹配引擎、材料缺口分析、ParkOps工单生成",
   "permissions": ["activeTab", "scripting", "storage"],
-  "browser_specific_settings": {
-    "safari": {
-      "strict_min_version": "15.4"
-    }
-  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -7,9 +7,8 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Tab 1: Dashboard (WebView)
-            NavigationView {
+            NavigationStack {
                 YanCeWebView(url: URL(string: "https://yance-policy-agent.vercel.app")!)
-                    .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             HStack(spacing: 8) {
@@ -31,7 +30,7 @@ struct ContentView: View {
             .tag(0)
 
             // Tab 2: Policy Clipper (Extension guide)
-            NavigationView {
+            NavigationStack {
                 ExtensionGuideView()
                     .navigationTitle("Policy Clipper")
             }
@@ -42,7 +41,7 @@ struct ContentView: View {
             .tag(1)
 
             // Tab 3: Match Engine
-            NavigationView {
+            NavigationStack {
                 MatchEngineView()
                     .navigationTitle("匹配引擎")
             }
@@ -53,7 +52,7 @@ struct ContentView: View {
             .tag(2)
 
             // Tab 4: About
-            NavigationView {
+            NavigationStack {
                 AboutView()
                     .navigationTitle("关于")
             }
@@ -63,7 +62,7 @@ struct ContentView: View {
             }
             .tag(3)
         }
-        .tint(Color(red: 14/255, green: 165/255, blue: 233/255)) // Teal
+        .tint(Color(red: 14/255, green: 165/255, blue: 233/255)) // Sky Blue #0EA5E9
     }
 }
 
