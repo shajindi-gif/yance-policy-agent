@@ -62,7 +62,7 @@ export default function DemoPage() {
                 <li>材料清单生成演示</li>
               </ul>
               <a
-                href="https://yance-policy-agent.vercel.app"
+                href="https://yance.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn"
@@ -156,7 +156,7 @@ export default function DemoPage() {
               <span className="demo-toolbar-dot" style={{ background: '#ffbd2e' }} />
               <span className="demo-toolbar-dot" style={{ background: '#28ca42' }} />
               <span className="demo-toolbar-url">
-                https://yance-policy-agent.vercel.app
+                https://yance.ai
               </span>
             </div>
             <div
@@ -185,7 +185,7 @@ export default function DemoPage() {
                 在完整 Demo 中，你可以看到企业画像、政策匹配、材料清单、服务工单等完整功能的交互体验。
               </p>
               <a
-                href="https://yance-policy-agent.vercel.app"
+                href="https://yance.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"

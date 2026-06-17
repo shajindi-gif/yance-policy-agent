@@ -89,7 +89,7 @@ export default function HomePage() {
                   borderRadius: '50%',
                 }}
               />
-              Demo 已上线 &middot; yance-policy-agent.vercel.app
+              Demo 已上线 &middot; yance.ai
             </div>
 
             <h1
@@ -146,7 +146,7 @@ export default function HomePage() {
                 预约园区 Demo
               </Link>
               <Link
-                href="https://yance-policy-agent.vercel.app"
+                href="https://yance.ai"
                 className="btn btn-lg"
                 style={{
                   background: 'transparent',

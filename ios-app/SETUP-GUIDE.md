@@ -139,7 +139,7 @@ Safari 扩展启用方式：设置 → Safari → 扩展 → YanCe Policy Agent
 
 **类别:** 效率工具 (Productivity)
 
-**隐私政策 URL:** https://yance-policy-agent.vercel.app/privacy
+**隐私政策 URL:** https://yance.ai/privacy
 
 #### 截图要求
 

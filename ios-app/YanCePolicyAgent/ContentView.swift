@@ -8,7 +8,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             // Tab 1: Dashboard (WebView)
             NavigationStack {
-                YanCeWebView(url: URL(string: "https://yance-policy-agent.vercel.app")!)
+                YanCeWebView(url: URL(string: "https://yance.ai")!)
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             HStack(spacing: 8) {
@@ -263,7 +263,7 @@ struct AboutView: View {
 
             Section("关于") {
                 HStack { Text("公司"); Spacer(); Text("上海衍策引擎人工智能科技有限公司").foregroundColor(.secondary) }
-                Link("访问官网", destination: URL(string: "https://yance-policy-agent.vercel.app")!)
+                Link("访问官网", destination: URL(string: "https://yance.ai")!)
                 Link("GitHub 开源", destination: URL(string: "https://github.com/shajindi-gif/yance-policy-agent")!)
             }
 
